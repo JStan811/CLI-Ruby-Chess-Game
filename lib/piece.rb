@@ -6,4 +6,6 @@ class Piece
     @type = type
     @color = color
   end
+
+  attr_reader :type, :color
 end
