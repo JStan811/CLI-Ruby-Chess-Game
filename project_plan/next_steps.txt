@@ -1,0 +1,1 @@
+- should I create a Cell class, then make the board just an array of 64 cells, each with a @position and @piece (a piece object or nil)?
