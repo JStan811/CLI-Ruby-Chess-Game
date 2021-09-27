@@ -2,4 +2,8 @@
 
 # represents a chess piece
 class Piece
+  def initialize(type, color)
+    @type = type
+    @color = color
+  end
 end
