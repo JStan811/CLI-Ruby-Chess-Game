@@ -3,6 +3,7 @@
 2. Read through instructions and take notes
   - Completed. Notes in paper notebook
 3. Design project - classes, attributes, methods, etc.
+  - Completed. See project_plan/design_v1.txt
 4. Start coding
   - Write psuedo-code before coding something
   - "Commit early and often."
