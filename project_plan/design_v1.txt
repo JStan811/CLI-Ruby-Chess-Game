@@ -1,0 +1,41 @@
+Potential classes:
+  - Player
+  - Piece
+    - King
+    - Queen
+    - Rook
+    - Bishop
+    - Knight
+    - Pawn
+  - Board
+  - Interface
+  - Database (for saving)
+  - Game/GameMaster/Chess
+
+Class breakdowns:
+  - Player
+    - Attributes: @name (Player 1 or Player 2 or Black or White, could later be changed to a user's inputted name), @color (Black or White)
+    - Methods: None
+
+  - Piece (potentially a super class for the specific pieces, although not sure if needed)
+    - King
+      - Attributes: @color (Black or White)
+      - Methods: #move (1 square in any direction), #castle
+    - Pawn
+      - Methods: #move, #en_passant, #promotion
+    - The rest of the pieces will share the Color attribute and Move method, with Move changing depending on the piece
+    - instead of subclasses for each piece type, I could make the piece type an attribute of a Piece class, then let another class handle the movements based on type. Maybe Board or Chess
+
+- Board
+  - Attributes: @current_state (some data structure representing the board and all the pieces' current positions)
+  - Methods: #update_state (ie move piece), #valid_move? (maybe split into #valid_cell? and #path_blocked?), #check?, #check_mate?, #captures_piece?, #remove_piece_from_play, #display_board
+
+- Interface (should this be a module?)
+  - Methods: #solicit_player_action, displayed messages (#introduction_message, etc.), #display_board
+
+- Database (should this be a module?)
+  - Methods: #save_game, #load_game
+
+- Chess
+  - Attributes: @player1 (or @player_white), @player2 (or @player_black), @board, @state (for loading and saving?)
+  - Methods: #play_game, #turn_loop, #single_turn, etc., its methods would likely mostly just call methods from the other classes/modules
