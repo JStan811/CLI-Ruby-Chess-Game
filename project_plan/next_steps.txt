@@ -2,7 +2,11 @@
 - Then merge testing-cells branch into main and delete testing-cells
 - Update design document to account for new Cell object design?
 
+- clean up Board methods
+  - eg for #place_white_starting_pieces, create a new method #place_white_first_row_piece(type)
+
 - write #valid_destination_type(starting_position) for each piece type (returns an array of all valid destination cells)
+
 - write valid_destination?(starting, target)
   - First checks if target is in list of destinations from starting
   - Then checks if there is a piece in the way
