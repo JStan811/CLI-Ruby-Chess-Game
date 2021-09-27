@@ -1,0 +1,9 @@
+1. Create repo in GitHub
+  - Completed. https://github.com/JStan811/chess
+2. Read through instructions and take notes
+  - Completed. Notes in paper notebook
+3. Design project - classes, attributes, methods, etc.
+4. Start coding
+  - Write psuedo-code before coding something
+  - "Commit early and often."
+  - "Write tests for important parts... (if) you find yourself typing into the command line repeatedly."
