@@ -3,6 +3,7 @@
 require_relative 'player'
 require_relative 'piece'
 require_relative 'board'
+require_relative 'cell'
 
 board = Board.new
 
