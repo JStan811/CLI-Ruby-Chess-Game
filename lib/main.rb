@@ -8,3 +8,5 @@ require_relative 'cell'
 board = Board.new
 
 board.pretty_print_board
+
+p board.create_valid_destination_list('Rook', 0, 0)

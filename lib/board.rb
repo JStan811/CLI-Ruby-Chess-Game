@@ -11,10 +11,11 @@ class Board
 
   attr_reader :current_state
 
+  # rubocop : disable Metrics/MethodLength
   # using to test board creation and changes. May end up transforming into the
   # display board method
   def pretty_print_board
-    @board_state.each_with_index do | row, index |
+    @board_state.each_with_index do |row, index|
       print "rank #{index + 1}: "
       row.each do |cell|
         if cell.contents.nil?
@@ -24,6 +25,14 @@ class Board
         end
       end
       puts ''
+    end
+  end
+  # rubocop : enable Metrics/MethodLength
+
+  def create_valid_destination_list(piece_type, starting_row_index, starting_column_index)
+    case piece_type
+    when 'Rook'
+      create_rook_valid_destination_list(starting_row_index, starting_column_index)
     end
   end
 
@@ -105,5 +114,15 @@ class Board
     place_piece('f', 7, 'Black', 'Pawn')
     place_piece('g', 7, 'Black', 'Pawn')
     place_piece('h', 7, 'Black', 'Pawn')
+  end
+
+  def create_rook_valid_destination_list(starting_row_index, starting_column_index)
+    valid_destinations = []
+    for i in 0..7 do
+      valid_destinations << [starting_row_index, i]
+      valid_destinations << [i, starting_column_index]
+    end
+    valid_destinations.delete [starting_row_index, starting_column_index]
+    valid_destinations
   end
 end
