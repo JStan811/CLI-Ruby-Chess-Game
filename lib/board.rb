@@ -5,7 +5,9 @@
 class Board
   def initialize
     # the board is represented by an array of 8 subarrays, each
-    # subarray representing a row, starting from the bottom
+    # subarray representing a row, starting from the bottom.
+    # The index value represents [row][column], ie the cell
+    # at [0,3] is d1 (or White Queen)
     @board_state = [[], [], [], [], [], [], [], []]
     build_starting_board
   end
@@ -30,12 +32,12 @@ class Board
   end
   # rubocop : enable Metrics/MethodLength
 
-  def create_valid_destination_list(piece_type, starting_column_index, starting_row_index)
+  def create_valid_destination_list(piece_type, starting_row_index, starting_column_index)
     case piece_type
     when 'Rook'
-      create_rook_valid_destination_list(starting_column_index, starting_row_index)
+      create_rook_valid_destination_list(starting_row_index, starting_column_index)
     when 'Knight'
-      create_knight_valid_destination_list(starting_column_index, starting_row_index)
+      create_knight_valid_destination_list(starting_row_index, starting_column_index)
     end
   end
 
@@ -119,7 +121,7 @@ class Board
     place_piece('h', 7, 'Black', 'Pawn')
   end
 
-  def create_rook_valid_destination_list(starting_column_index, starting_row_index)
+  def create_rook_valid_destination_list(starting_row_index, starting_column_index)
     valid_destinations = []
     for i in 0..7 do
       valid_destinations << [i, starting_column_index]
@@ -129,23 +131,23 @@ class Board
     valid_destinations
   end
 
-  def create_knight_valid_destination_list(starting_column_index, starting_row_index)
+  def create_knight_valid_destination_list(starting_row_index, starting_column_index)
     valid_destinations = []
-    x = starting_column_index
-    y = starting_row_index
-    valid_destinations << [x + 1, y - 2] if valid_position?(x + 1, y - 2)
-    valid_destinations << [x + 2, y - 1] if valid_position?(x + 2, y + 1)
-    valid_destinations << [x + 2, y + 1] if valid_position?(x + 2, y + 1)
-    valid_destinations << [x + 1, y + 2] if valid_position?(x + 1, y + 2)
-    valid_destinations << [x - 1, y + 2] if valid_position?(x - 1, y + 2)
-    valid_destinations << [x - 2, y + 1] if valid_position?(x - 2, y + 1)
-    valid_destinations << [x - 2, y - 1] if valid_position?(x - 2, y - 1)
-    valid_destinations << [x - 1, y - 2] if valid_position?(x - 1, y - 2)
+    r = starting_row_index
+    c = starting_column_index
+    valid_destinations << [r - 2, c + 1] if valid_position?(r - 2, c + 1)
+    valid_destinations << [r - 1, c + 2] if valid_position?(r - 1, c + 2)
+    valid_destinations << [r + 1, c + 2] if valid_position?(r + 1, c + 2)
+    valid_destinations << [r + 2, c + 1] if valid_position?(r + 2, c + 1)
+    valid_destinations << [r + 2, c - 1] if valid_position?(r + 2, c - 1)
+    valid_destinations << [r + 1, c - 2] if valid_position?(r + 1, c - 2)
+    valid_destinations << [r - 1, c - 2] if valid_position?(r - 1, c - 2)
+    valid_destinations << [r - 2, c - 1] if valid_position?(r - 2, c - 1)
     valid_destinations
   end
 
-  def valid_position?(column_index, row_index)
-    return false if column_index.negative? || column_index > 7 || row_index.negative? || row_index > 7
+  def valid_position?(row_index, column_index)
+    return false if row_index.negative? || row_index > 7 || column_index.negative? || column_index > 7
 
     true
   end
