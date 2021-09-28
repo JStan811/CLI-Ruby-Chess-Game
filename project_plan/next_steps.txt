@@ -1,5 +1,4 @@
-- write #valid_destination_type(starting_position) for each piece type (returns an array of all valid destination cells)
-  - Knight: Complete
+- look at project_plan/chess_psuedocode.txt and start there
 
 - write valid_destination?(starting, target)
   - First checks if target is in list of destinations from starting
@@ -8,5 +7,8 @@
   - If there is player's own piece in target, invalid
   - If there is opponent's piece in target, valid and opp. piece is captured
 
-- consider splitting up Board. Maybe make a BoardManager that does all the valid move calculations?
-  - Should probably write tests before doing this
+- clean up MoveValidator#validation list methods
+
+- Write tests
+
+- Finish board design, see last commit for more info
