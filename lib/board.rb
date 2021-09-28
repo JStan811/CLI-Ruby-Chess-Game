@@ -13,24 +13,6 @@ class Board
 
   attr_reader :board_contents
 
-  # rubocop : disable Metrics/MethodLength
-  # using to test board creation and changes. May end up transforming into the
-  # display board method
-  def pretty_print_board
-    @board_contents.each_with_index do |row, index|
-      print "row #{index + 1}: "
-      row.each do |cell|
-        if cell.contents.nil?
-          print 'empty '
-        else
-          print "#{cell.contents.color} #{cell.contents.type} "
-        end
-      end
-      puts ''
-    end
-  end
-  # rubocop : enable Metrics/MethodLength
-
   private
 
   def fill_board_with_empty_cells

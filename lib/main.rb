@@ -8,7 +8,9 @@ require_relative 'chess'
 
 chess = Chess.new
 
-chess.pretty_print_board
+chess.pretty_print_board_text
+
+chess.pretty_print_board_symbols
 
 # p board.create_valid_destination_list('Rook', 2, 2)
 # p board.create_valid_destination_list('Knight', 0, 1)
