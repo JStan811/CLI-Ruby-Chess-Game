@@ -1,11 +1,5 @@
-- First create a new branch from main to store the original design code
-- Then merge testing-cells branch into main and delete testing-cells
-- Update design document to account for new Cell object design?
-
-- clean up Board methods
-  - eg for #place_white_starting_pieces, create a new method #place_white_first_row_piece(type)
-
 - write #valid_destination_type(starting_position) for each piece type (returns an array of all valid destination cells)
+  - Knight: Complete
 
 - write valid_destination?(starting, target)
   - First checks if target is in list of destinations from starting
@@ -13,3 +7,5 @@
   - At some level I'll need to change based on given type
   - If there is player's own piece in target, invalid
   - If there is opponent's piece in target, valid and opp. piece is captured
+
+- consider splitting up Board. Maybe make a BoardManager that does all the valid move calculations?
