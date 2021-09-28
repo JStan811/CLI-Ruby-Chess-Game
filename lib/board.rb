@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop: disable Metrics/ClassLength
 # represents the chess board
 class Board
   def initialize
@@ -9,7 +10,7 @@ class Board
     build_starting_board
   end
 
-  attr_reader :current_state
+  attr_reader :board_state
 
   # rubocop : disable Metrics/MethodLength
   # using to test board creation and changes. May end up transforming into the
@@ -29,10 +30,12 @@ class Board
   end
   # rubocop : enable Metrics/MethodLength
 
-  def create_valid_destination_list(piece_type, starting_row_index, starting_column_index)
+  def create_valid_destination_list(piece_type, starting_column_index, starting_row_index)
     case piece_type
     when 'Rook'
-      create_rook_valid_destination_list(starting_row_index, starting_column_index)
+      create_rook_valid_destination_list(starting_column_index, starting_row_index)
+    when 'Knight'
+      create_knight_valid_destination_list(starting_column_index, starting_row_index)
     end
   end
 
@@ -116,13 +119,51 @@ class Board
     place_piece('h', 7, 'Black', 'Pawn')
   end
 
-  def create_rook_valid_destination_list(starting_row_index, starting_column_index)
+  def create_rook_valid_destination_list(starting_column_index, starting_row_index)
     valid_destinations = []
     for i in 0..7 do
-      valid_destinations << [starting_row_index, i]
       valid_destinations << [i, starting_column_index]
+      valid_destinations << [starting_row_index, i]
     end
-    valid_destinations.delete [starting_row_index, starting_column_index]
+    valid_destinations.delete [starting_column_index, starting_row_index]
     valid_destinations
   end
+
+  def create_knight_valid_destination_list(starting_column_index, starting_row_index)
+    valid_destinations = []
+    x = starting_column_index
+    y = starting_row_index
+    valid_destinations << [x + 1, y - 2] if valid_position?(x + 1, y - 2)
+    valid_destinations << [x + 2, y - 1] if valid_position?(x + 2, y + 1)
+    valid_destinations << [x + 2, y + 1] if valid_position?(x + 2, y + 1)
+    valid_destinations << [x + 1, y + 2] if valid_position?(x + 1, y + 2)
+    valid_destinations << [x - 1, y + 2] if valid_position?(x - 1, y + 2)
+    valid_destinations << [x - 2, y + 1] if valid_position?(x - 2, y + 1)
+    valid_destinations << [x - 2, y - 1] if valid_position?(x - 2, y - 1)
+    valid_destinations << [x - 1, y - 2] if valid_position?(x - 1, y - 2)
+    valid_destinations
+  end
+
+  def valid_position?(column_index, row_index)
+    return false if column_index.negative? || column_index > 7 || row_index.negative? || row_index > 7
+
+    true
+  end
+
+  # def all_possible_destination_cells(root_cell)
+  #   # array of cells
+  #   possible_moves = []
+  #   x = root_cell.position[0]
+  #   y = root_cell.position[1]
+  #   possible_moves << Cell.new([x + 1, y - 2]) if valid_position?(x + 1, y - 2)
+  #   possible_moves << Cell.new([x + 2, y - 1]) if valid_position?(x + 2, y - 1)
+  #   possible_moves << Cell.new([x + 2, y + 1]) if valid_position?(x + 2, y + 1)
+  #   possible_moves << Cell.new([x + 1, y + 2]) if valid_position?(x + 1, y + 2)
+  #   possible_moves << Cell.new([x - 1, y + 2]) if valid_position?(x - 1, y + 2)
+  #   possible_moves << Cell.new([x - 2, y + 1]) if valid_position?(x - 2, y + 1)
+  #   possible_moves << Cell.new([x - 2, y - 1]) if valid_position?(x - 2, y - 1)
+  #   possible_moves << Cell.new([x - 1, y - 2]) if valid_position?(x - 1, y - 2)
+  #   possible_moves
+  # end
 end
+# rubocop: enable Metrics/ClassLength
