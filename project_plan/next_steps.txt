@@ -9,3 +9,4 @@
   - If there is opponent's piece in target, valid and opp. piece is captured
 
 - consider splitting up Board. Maybe make a BoardManager that does all the valid move calculations?
+  - Should probably write tests before doing this
