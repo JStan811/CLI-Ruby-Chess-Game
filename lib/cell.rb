@@ -2,10 +2,9 @@
 
 # represents single cell on a chess board
 class Cell
-  def initialize(position, contents = nil)
-    @position = position
-    @contents = contents
+  def initialize
+    @cell_contents = nil
   end
 
-  attr_reader :position, :contents
+  attr_accessor :cell_contents
 end

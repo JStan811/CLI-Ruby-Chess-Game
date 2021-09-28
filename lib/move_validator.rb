@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 # rubocop: disable Metrics/ClassLength
+# represents an entity to validates if a given move is valid
+# used to be a part of Board, but I split it out
 class MoveValidator
   def create_valid_destination_list(piece_type, starting_row_index, starting_column_index)
     case piece_type
