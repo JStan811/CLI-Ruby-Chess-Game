@@ -2,10 +2,10 @@
 
 # represents a chess piece
 class Piece
-  def initialize(type, color)
-    @type = type
+  def initialize(color, type)
     @color = color
+    @type = type
   end
 
-  attr_reader :type, :color
+  attr_reader :color, :type
 end
