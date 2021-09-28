@@ -1,0 +1,33 @@
+Potential classes:
+  - Player
+  - Piece
+  - Cell
+  - Board
+  - Interface
+  - Database (for saving)
+  - Game/GameMaster/Chess
+
+Class breakdowns:
+- Player
+  - Attributes: @name (Player 1 or Player 2 or Black or White, could later be changed to a user's inputted name), @color (Black or White)
+  - Methods: None
+
+- Piece
+  - Attributes: @color (Black or White), @type (Rook, Bishop, etc.)
+
+- Cell
+  - Attributes: @position (a1, b3, etc.), @contents(nil or Piece object)
+
+- Board
+  - Attributes: @current_state (some data structure representing the board and all the pieces' current positions)
+  - Methods: #update_state (ie move piece), #valid_move? (maybe split into #valid_cell? and #path_blocked?), #check?, #check_mate?, #captures_piece?, #remove_piece_from_play, #display_board
+
+- Interface (should this be a module?)
+  - Methods: #solicit_player_action, displayed messages (#introduction_message, etc.), #display_board
+
+- Database (should this be a module?)
+  - Methods: #save_game, #load_game
+
+- Chess
+  - Attributes: @player1 (or @player_white), @player2 (or @player_black), @board, @state (for loading and saving?)
+  - Methods: #play_game, #turn_loop, #single_turn, etc., its methods would likely mostly just call methods from the other classes/modules
