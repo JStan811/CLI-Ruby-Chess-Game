@@ -1,0 +1,21 @@
+1. Welcome message + instructions + display board
+2. Ask player if they would like to load a previous game
+3. Turn loop
+  a. Ask player if they would like to save game and/or quit
+  b. Ask player for move
+  c. check if valid move
+    - check if move is valid for piece type
+        - if no, invalid - display message and ask player again (3b)
+    - check if target cell is occupied
+      - if by opponent piece, valid
+      - if yes by own piece, invalid - display message and ask player again (3b)
+    - check if path is blocked by a piece (unless Knight, King, or Pawn)
+      - if yes, invalid - display message and ask player again (3b)
+  d. update board
+  e. check if game state is check or checkmate
+    - if check, display message and proceed to next player's turn
+    - if checkmate, display message and end game
+  f. check is game state is draw
+    - only kings left on the board
+    - (other draw situations are in the wiki)
+  f. proceed to next iteration of loop
