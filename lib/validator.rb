@@ -8,19 +8,11 @@ class Validator
     # from starting cell, determine piece type and color
   end
 
-  # keeping this here when I'm ready to try coding for standard chess notation
-  # should move this into another branch when I get there
-  def valid_notation_standard?(player_action)
-    # initial of the piece moved - file of destination square - rank of
-    # destination square
+  def valid_notation?(player_action)
+    return false unless player_action.is_a? String
 
-    # To resolve ambiguities, an additional letter or number is added
-    # to indicate the file or rank from which the piece moved
-
-    # For pawns, no letter initial is used; so e4 means "pawn moves to the
-    # square e4".
-
-    # More rules in wiki
+    # my simple notation is '"starting cell""target cell"', eg 'e3a4'
+    player_action.match?(/[a-h][1-8][a-h][1-8]/)
   end
 
   private
