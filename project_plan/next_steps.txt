@@ -1,25 +1,20 @@
-- look at project_plan/chess_psuedocode.txt and start there
+1. continue Chess#player_action_sequence from line 54
+  - be sure to keep writing tests as you go!
 
-- write valid_destination?(starting, target)
-  - First checks if target is in list of destinations from starting
-  - Then checks if there is a piece in the way
-  - At some level I'll need to change based on given type
-  - If there is player's own piece in target, invalid
-  - If there is opponent's piece in target, valid and opp. piece is captured
+2.look at project_plan/chess_psuedocode.txt and continue from where you are
 
-- clean up MoveValidator#validation list methods
-
-- Write tests
-
-- Finish board design, see last commit for more info
+3. W/e order for these:
+  - I think you can remove the #convert_notation_to_column_index and #convert_notation_to_row_index tests in chess_spec.rb and then move those methods to private b/c eventually a public method is going to call them where they will be tested
+  - clean up MoveValidator#validation list methods
+  - figure out what to do with pawn movement - how to know account for diagonal jumps? Currently its considered a valid move, but should only be if there is an opp's pawn to capture. Be sure to update tests once you fix this
+  - Write tests
+  - Finish board design, see last commit for more info
   - can I make symbols bigger?
+  - for Interface#solicit_player_action, create some mechanism that allows the player to enter 'help' for instructions about Chess notation
 
-- Consider moving all the game setup methods into another class (maybe ChessSetup?), then using Chess(or GameMaster) for just managing the game
-  - Complete
-
-- for Interface#solicit_player_action, create some mechanism that allows the player to enter 'help' for instructions about Chess notation
+4. at the end use the rubocop command line thing, also read through everything and refactor
 
 Extras
   - Decide player color randomly
   - Add functionality for special moves - Castling, En passant, Promotion
-  - Code for standard chess notation: Validatorvalidate_notation_standard
+  - Code for standard chess notation: see branch standard_notation
