@@ -3,7 +3,7 @@
 # rubocop: disable Metrics/ClassLength
 # represents an entity to validates if a given move is valid
 # used to be a part of Board, but I split it out
-class MoveValidator
+class Validator
   def valid_move?
     # is given move for given piece a valid destination?
     # is there a piece already at the target? if own, invalid. If opponent's,
