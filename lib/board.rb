@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'cell'
+
 # represents the chess board
 class Board
   def initialize

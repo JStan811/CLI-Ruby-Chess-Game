@@ -2,31 +2,38 @@
 
 require_relative '../lib/chess'
 
+# rubocop: disable Metrics/BlockLength
 describe Chess do
-  describe '#pull_piece' do
-    subject(:chess) { described_class.new }
-    let(:player1) { instance_double('player') }
-    let(:player2) { instance_double('player') }
-    let(:pieces) { chess.instance_variable_get(:@pieces) }
+  describe '#convert_notation_to_column_index' do
+    subject(:convert_to_column_chess) { described_class.new }
 
-    context 'when passed a white rook' do
-      before do
-        allow(chess).to receive(build_starting_board)
+    context 'when sent cell e5' do
+      it 'returns column index 4' do
+        expect(convert_to_column_chess.convert_notation_to_column_index('e5')).to eq(4)
       end
+    end
 
-      it 'finds the first white rook in the collection' do
-        white_rook = pieces[0]
-        expect(pieces).to receive(:find).and_return(white_rook)
-        chess.pull_piece('White', 'Rook')
+    context 'when sent cell b8' do
+      it 'returns column index 1' do
+        expect(convert_to_column_chess.convert_notation_to_column_index('b8')).to eq(1)
       end
+    end
+  end
 
-      it 'deletes the first white rook from the collection' do
-        white_rook = pieces[0]
-        expect(pieces).not_to include?(white_rook)
-        chess.pull_piece('White', 'Rook')
+  describe '#convert_notation_to_row_index' do
+    subject(:convert_to_row_chess) { described_class.new }
+
+    context 'when sent cell a7' do
+      it 'returns row index 6' do
+        expect(convert_to_row_chess.convert_notation_to_row_index('a7')).to eq(6)
       end
+    end
 
-      it 'returns the first white rook from the collection'
+    context 'when sent cell h3' do
+      it 'returns column index 2' do
+        expect(convert_to_row_chess.convert_notation_to_row_index('h3')).to eq(2)
+      end
     end
   end
 end
+# rubocop: enable Metrics/BlockLength
