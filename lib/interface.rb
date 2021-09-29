@@ -40,7 +40,7 @@ class Interface
   # using to test board creation and changes. May end up transforming into the
   # display board method
   def pretty_print_board_text
-    @board.board_contents.each_with_index do |row, index|
+    @board.cells.each_with_index do |row, index|
       print "row #{index + 1}: "
       row.each do |cell|
         if cell.cell_contents.nil?
@@ -54,7 +54,7 @@ class Interface
   end
 
   def pretty_print_board_symbols
-    @board.board_contents.each_with_index do |row, index|
+    @board.cells.each_with_index do |row, index|
       print "row #{index + 1}: "
       row.each do |cell|
         if cell.cell_contents.nil?

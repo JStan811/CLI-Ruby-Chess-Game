@@ -4,39 +4,8 @@
 # represents an entity to validates if a given move is valid
 # used to be a part of Board, but I split it out
 class Validator
-  def validate_action(player_action)
-    # may need to split all these up and instead let Chess run the full
-    # validate action sequence
-
-    # validate if entered text is valid (follows Chess notation)
-    valid_notation?(player_action)
-    # validate if action is a valid destination for given piece
-
-    # validate if move is allowed with current board setup: is there a piece
-    # blocking the way, or is your own piece in the target cell?
-
-    # validate if move leaves own king in check
-
-    # if all validations pass, accept player action
-  end
-
-  def valid_notation?(player_action)
-    return false unless player_action.is_a? String
-
-    # my simple notation is '"starting cell""target cell"', eg 'e3a4'
-    player_action.match?(/[a-h][1-8][a-h][1-8]/)
-  end
-
-  def valid_destination?(player_action)
-    # figure out piece type
-    piece_type = 'King'
-    # if type is pawn save color
-    color = 'White' if piece_type == 'Pawn'
-    # determine starting position
-    starting_column_index = 0
-    starting_row_index = 0
-    # if pawn, enter color here
-    valid_destinations = create_valid_destination_list(piece_type, starting_column_index, starting_row_index, color)
+  def valid_destination?(starting_cell, ending_cell)
+    # from starting cell, determine piece type and color
   end
 
   # keeping this here when I'm ready to try coding for standard chess notation

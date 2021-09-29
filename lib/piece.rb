@@ -2,17 +2,18 @@
 
 # represents a chess piece
 class Piece
-  def initialize(color, type)
+  def initialize(color, type, owner)
     @color = color
     @type = type
-    @symbol = set_symbol(color, type)
+    @owner = owner
+    @symbol = determine_symbol(color, type)
   end
 
   attr_reader :color, :type, :symbol
 
   private
 
-  def set_symbol(color, type)
+  def determine_symbol(color, type)
     case color
     when 'White'
       set_white_symbol(type)
@@ -21,7 +22,7 @@ class Piece
     end
   end
 
-  def set_white_symbol(type)
+  def determine_white_symbol(type)
     case type
     when 'Rook'
       "\u2656".encode('utf-8')

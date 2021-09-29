@@ -17,7 +17,7 @@ class GameBuilder
     @interface = Interface.new
   end
 
-  attr_reader :interface
+  attr_reader :interface, :validator
 
   private
 
@@ -29,36 +29,36 @@ class GameBuilder
   end
 
   def fill_with_white_pieces_non_pawns
-    @pieces << Piece.new('White', 'Rook')
-    @pieces << Piece.new('White', 'Knight')
-    @pieces << Piece.new('White', 'Bishop')
-    @pieces << Piece.new('White', 'Queen')
-    @pieces << Piece.new('White', 'King')
-    @pieces << Piece.new('White', 'Bishop')
-    @pieces << Piece.new('White', 'Knight')
-    @pieces << Piece.new('White', 'Rook')
+    @pieces << Piece.new('White', 'Rook', @player1)
+    @pieces << Piece.new('White', 'Knight', @player1)
+    @pieces << Piece.new('White', 'Bishop', @player1)
+    @pieces << Piece.new('White', 'Queen', @player1)
+    @pieces << Piece.new('White', 'King', @player1)
+    @pieces << Piece.new('White', 'Bishop', @player1)
+    @pieces << Piece.new('White', 'Knight', @player1)
+    @pieces << Piece.new('White', 'Rook', @player1)
   end
 
   def fill_with_white_pawns
     8.times do
-      @pieces << Piece.new('White', 'Pawn')
+      @pieces << Piece.new('White', 'Pawn', @player1)
     end
   end
 
   def fill_with_black_pieces_non_pawns
-    @pieces << Piece.new('Black', 'Rook')
-    @pieces << Piece.new('Black', 'Knight')
-    @pieces << Piece.new('Black', 'Bishop')
-    @pieces << Piece.new('Black', 'Queen')
-    @pieces << Piece.new('Black', 'King')
-    @pieces << Piece.new('Black', 'Bishop')
-    @pieces << Piece.new('Black', 'Knight')
-    @pieces << Piece.new('Black', 'Rook')
+    @pieces << Piece.new('Black', 'Rook', @player2)
+    @pieces << Piece.new('Black', 'Knight', @player2)
+    @pieces << Piece.new('Black', 'Bishop', @player2)
+    @pieces << Piece.new('Black', 'Queen', @player2)
+    @pieces << Piece.new('Black', 'King', @player2)
+    @pieces << Piece.new('Black', 'Bishop', @player2)
+    @pieces << Piece.new('Black', 'Knight', @player2)
+    @pieces << Piece.new('Black', 'Rook', @player2)
   end
 
   def fill_with_black_pawns
     8.times do
-      @pieces << Piece.new('Black', 'Pawn')
+      @pieces << Piece.new('Black', 'Pawn', @player2)
     end
   end
 
@@ -81,7 +81,7 @@ class GameBuilder
 
   def place_piece(target_row_index, target_column_index, piece_color, piece_type)
     piece = pull_piece(piece_color, piece_type)
-    cell = @board.board_contents[target_row_index][target_column_index]
+    cell = @board.cells[target_row_index][target_column_index]
     cell.cell_contents = piece
   end
 

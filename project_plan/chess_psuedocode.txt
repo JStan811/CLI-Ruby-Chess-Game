@@ -4,6 +4,8 @@
   a. Ask player if they would like to save game and/or quit
   b. Ask player for move
   c. check if valid move
+    - check if move text is valid notation
+    - check if starting cell contains own piece
     - check if move is valid for piece type
         - if no, invalid - display message and ask player again (3b)
     - check if target cell is occupied
