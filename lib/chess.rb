@@ -41,6 +41,8 @@ class Chess
   def player_action_sequence(player)
     # ask player for action
     player_action = @game.interface.solicit_player_action
+    starting_cell = convert_player_action_into_starting_cell(player_action)
+    ending_cell = convert_player_action_into_ending_cell(player_action)
     # validate if entered text is valid (follows Chess notation)
     @game.validator.valid_notation?(player_action)
     # validate if starting cell has a piece in it
