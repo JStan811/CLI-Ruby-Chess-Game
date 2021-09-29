@@ -4,31 +4,69 @@
 # represents an entity to validates if a given move is valid
 # used to be a part of Board, but I split it out
 class Validator
-  def valid_move?
-    # is given move for given piece a valid destination?
-    # is there a piece already at the target? if own, invalid. If opponent's,
-    # valid
-    # is there a piece blocking the way (except for King, Pawn, and Knight)
+  def validate_action(player_action)
+    # may need to split all these up and instead let Chess run the full
+    # validate action sequence
+
+    # validate if entered text is valid (follows Chess notation)
+    valid_notation?(player_action)
+    # validate if action is a valid destination for given piece
+
+    # validate if move is allowed with current board setup: is there a piece
+    # blocking the way, or is your own piece in the target cell?
+
+    # validate if move leaves own king in check
+
+    # if all validations pass, accept player action
   end
 
-  def create_valid_destination_list(piece_type, starting_row_index, starting_column_index, color = nil)
-    case piece_type
-    when 'Rook'
-      create_rook_valid_destination_list(starting_row_index, starting_column_index)
-    when 'Knight'
-      create_knight_valid_destination_list(starting_row_index, starting_column_index)
-    when 'Bishop'
-      create_bishop_valid_destination_list(starting_row_index, starting_column_index)
-    when 'Queen'
-      create_queen_valid_destination_list(starting_row_index, starting_column_index)
-    when 'King'
-      create_king_valid_destination_list(starting_row_index, starting_column_index)
-    when 'Pawn'
-      create_pawn_valid_destination_list(color, starting_row_index, starting_column_index)
-    end
+  def valid_notation?(player_action)
+    return false unless player_action.is_a? String
+
+    # my simple notation is '"starting cell""target cell"', eg 'e3a4'
+    player_action.match?(/[a-h][1-8][a-h][1-8]/)
+  end
+
+  def valid_destination?(player_action)
+    # figure out piece type
+    piece_type = 'King'
+    # if type is pawn save color
+    color = 'White' if piece_type == 'Pawn'
+    # determine starting position
+    starting_column_index = 0
+    starting_row_index = 0
+    # if pawn, enter color here
+    valid_destinations = create_valid_destination_list(piece_type, starting_column_index, starting_row_index, color)
+  end
+
+  # keeping this here when I'm ready to try coding for standard chess notation
+  # should move this into another branch when I get there
+  def valid_notation_standard?(player_action)
+    # initial of the piece moved - file of destination square - rank of
+    # destination square
+
+    # To resolve ambiguities, an additional letter or number is added
+    # to indicate the file or rank from which the piece moved
+
+    # For pawns, no letter initial is used; so e4 means "pawn moves to the
+    # square e4".
+
+    # More rules in wiki
   end
 
   private
+
+  # default color to nil because only pawn needs color
+  def create_valid_destination_list(piece_type, color = nil, starting_row_index, starting_column_index)
+    case piece_type
+    when 'Rook' then create_rook_valid_destination_list(starting_row_index, starting_column_index)
+    when 'Knight' then create_knight_valid_destination_list(starting_row_index, starting_column_index)
+    when 'Bishop' then create_bishop_valid_destination_list(starting_row_index, starting_column_index)
+    when 'Queen' then create_queen_valid_destination_list(starting_row_index, starting_column_index)
+    when 'King' then create_king_valid_destination_list(starting_row_index, starting_column_index)
+    when 'Pawn' then create_pawn_valid_destination_list(color, starting_row_index, starting_column_index)
+    end
+  end
 
   def create_rook_valid_destination_list(starting_row_index, starting_column_index)
     rook_destinations = []
