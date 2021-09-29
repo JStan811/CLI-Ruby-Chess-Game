@@ -6,6 +6,7 @@ require_relative 'board'
 require_relative 'cell'
 require_relative 'chess'
 require_relative 'interface'
+require_relative 'game_builder'
 
 chess = Chess.new
 

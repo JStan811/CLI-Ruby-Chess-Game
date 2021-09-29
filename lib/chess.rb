@@ -3,13 +3,7 @@
 # represents an entity running the game
 class Chess
   def initialize
-    @player1 = Player.new('Player 1', 'White')
-    @player2 = Player.new('Player 2', 'Black')
-    @pieces = []
-    fill_pieces_collection
-    @board = Board.new
-    build_starting_board
-    @interface = Interface.new
+    @game = GameBuilder.new
     play_chess
   end
 
@@ -18,112 +12,31 @@ class Chess
   private
 
   def play_chess
-    @interface.display_introduction
-  end
-
-  def fill_pieces_collection
-    fill_with_white_pieces_non_pawns
-    fill_with_white_pawns
-    fill_with_black_pieces_non_pawns
-    fill_with_black_pawns
-  end
-
-  def fill_with_white_pieces_non_pawns
-    @pieces << Piece.new('White', 'Rook')
-    @pieces << Piece.new('White', 'Knight')
-    @pieces << Piece.new('White', 'Bishop')
-    @pieces << Piece.new('White', 'Queen')
-    @pieces << Piece.new('White', 'King')
-    @pieces << Piece.new('White', 'Bishop')
-    @pieces << Piece.new('White', 'Knight')
-    @pieces << Piece.new('White', 'Rook')
-  end
-
-  def fill_with_white_pawns
-    8.times do
-      @pieces << Piece.new('White', 'Pawn')
+    @game.interface.display_introduction
+    loop do
+      turn_loop
+      # force exit now for testing purposes, eventually I'll throw the
+      # 'exit' command into the turn loop itself
+      exit
     end
   end
 
-  def fill_with_black_pieces_non_pawns
-    @pieces << Piece.new('Black', 'Rook')
-    @pieces << Piece.new('Black', 'Knight')
-    @pieces << Piece.new('Black', 'Bishop')
-    @pieces << Piece.new('Black', 'Queen')
-    @pieces << Piece.new('Black', 'King')
-    @pieces << Piece.new('Black', 'Bishop')
-    @pieces << Piece.new('Black', 'Knight')
-    @pieces << Piece.new('Black', 'Rook')
-  end
-
-  def fill_with_black_pawns
-    8.times do
-      @pieces << Piece.new('Black', 'Pawn')
-    end
-  end
-
-  def build_starting_board
-    place_white_starting_pieces
-    place_black_starting_pieces
-  end
-
-  def place_white_starting_pieces
-    place_piece(0, 0, 'White', 'Rook')
-    place_piece(0, 1, 'White', 'Knight')
-    place_piece(0, 2, 'White', 'Bishop')
-    place_piece(0, 3, 'White', 'Queen')
-    place_piece(0, 4, 'White', 'King')
-    place_piece(0, 5, 'White', 'Bishop')
-    place_piece(0, 6, 'White', 'Knight')
-    place_piece(0, 7, 'White', 'Rook')
-    place_white_starting_pawns
-  end
-
-  def place_piece(target_row_index, target_column_index, piece_color, piece_type)
-    piece = pull_piece(piece_color, piece_type)
-    cell = @board.board_contents[target_row_index][target_column_index]
-    cell.cell_contents = piece
-  end
-
-  def pull_piece(piece_color, piece_type)
-    # find first piece in collection matching given color and type
-    pulled_piece = @pieces.find { |piece| piece.color == piece_color && piece.type == piece_type }
-    # pull (delete) piece from collection
-    @pieces.delete pulled_piece
-    pulled_piece
-  end
-
-  def place_white_starting_pawns
-    place_piece(1, 0, 'White', 'Pawn')
-    place_piece(1, 1, 'White', 'Pawn')
-    place_piece(1, 2, 'White', 'Pawn')
-    place_piece(1, 3, 'White', 'Pawn')
-    place_piece(1, 4, 'White', 'Pawn')
-    place_piece(1, 5, 'White', 'Pawn')
-    place_piece(1, 6, 'White', 'Pawn')
-    place_piece(1, 7, 'White', 'Pawn')
-  end
-
-  def place_black_starting_pieces
-    place_black_starting_pawns
-    place_piece(7, 0, 'Black', 'Rook')
-    place_piece(7, 1, 'Black', 'Knight')
-    place_piece(7, 2, 'Black', 'Bishop')
-    place_piece(7, 3, 'Black', 'Queen')
-    place_piece(7, 4, 'Black', 'King')
-    place_piece(7, 5, 'Black', 'Bishop')
-    place_piece(7, 6, 'Black', 'Knight')
-    place_piece(7, 7, 'Black', 'Rook')
-  end
-
-  def place_black_starting_pawns
-    place_piece(6, 0, 'Black', 'Pawn')
-    place_piece(6, 1, 'Black', 'Pawn')
-    place_piece(6, 2, 'Black', 'Pawn')
-    place_piece(6, 3, 'Black', 'Pawn')
-    place_piece(6, 4, 'Black', 'Pawn')
-    place_piece(6, 5, 'Black', 'Pawn')
-    place_piece(6, 6, 'Black', 'Pawn')
-    place_piece(6, 7, 'Black', 'Pawn')
+  def turn_loop
+    # Ask player if they would like to save game and/or quit
+    # based on response, engage save mechanism and/or exit game
+    @game.interface.solicit_save_quit_response
+    # Ask player for move/action
+    player_action = @game.interface.solicit_player_action
+    # check if valid move
+    @game.validator.validate_move(player_action)
+    # update board
+    @game.board.update_board(player_action)
+    # check for check
+    @game.validator.check?(@game.board.board_state)
+    # check for checkmate
+    @game.validator.check_mate?(@game.board.board_state)
+    # check for draw
+    @game.validator.draw?(@game.board.board_state)
+    # proceeed to next interation of loop
   end
 end

@@ -2,15 +2,21 @@
 
 # to house methods for interfacing with user
 class Interface
-  def solicit_player_action
-    # ask player for their move and return it
-    # include an 'enter "help" to learn how chess notation works'
-  end
-
   def display_introduction
     display_welcome_message
     display_instructions
+    display_load_game_option
     display_board_v1
+  end
+
+  def solicit_save_quit_response
+    display_save_quit_option
+    gets.chomp
+  end
+
+  def solicit_player_action
+    display_request_for_player_action
+    gets.chomp
   end
 
   private
@@ -23,6 +29,11 @@ class Interface
   def display_instructions
     puts 'These are your instructions: '
     puts '(Instructions to be filled in later :D...)'
+    puts ''
+  end
+
+  def display_load_game_option
+    puts 'Would you like load a previous game? (y/n)'
     puts ''
   end
 
@@ -87,5 +98,16 @@ class Interface
            a       b       c       d       e       f       g       h
       "
     puts board
+  end
+
+  def display_save_quit_option
+    puts "Would you like to save and/or quit the game? (type 's' for save, 'q' for quit, 'sq' for both)"
+  end
+
+  def display_request_for_player_action
+    puts 'Player (1 or 2, pull from Player.name), enter your move: '
+    # should I explain instructions each time this is printed or just at the
+    # beginning? or maybe only if a move entered is invalid?
+    # oh! I could also put a "type 'help' for instructions"
   end
 end
