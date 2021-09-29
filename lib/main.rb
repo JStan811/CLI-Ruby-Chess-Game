@@ -5,6 +5,7 @@ require_relative 'piece'
 require_relative 'board'
 require_relative 'cell'
 require_relative 'chess'
+require_relative 'interface'
 
 chess = Chess.new
 
@@ -12,9 +13,9 @@ chess = Chess.new
 
 # chess.pretty_print_board_symbols
 
-chess.display_board_v1
-chess.display_board_v2
-chess.display_board_v3
+# chess.display_board_v1
+# chess.display_board_v2
+# chess.display_board_v3
 
 
 # p board.create_valid_destination_list('Rook', 2, 2)
