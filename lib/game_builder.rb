@@ -82,7 +82,7 @@ class GameBuilder
   def place_piece(target_row_index, target_column_index, piece_color, piece_type)
     piece = pull_piece(piece_color, piece_type)
     cell = @board.cells[target_row_index][target_column_index]
-    cell.cell_contents = piece
+    cell.place_piece(piece)
   end
 
   def pull_piece(piece_color, piece_type)

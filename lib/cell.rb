@@ -2,9 +2,14 @@
 
 # represents single cell on a chess board
 class Cell
-  def initialize
-    @cell_contents = nil
+  def initialize(position, piece = nil)
+    @position = position
+    @piece = piece
   end
 
-  attr_accessor :cell_contents
+  attr_reader :position, :piece
+
+  def place_piece(piece)
+    @piece = piece
+  end
 end

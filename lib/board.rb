@@ -22,8 +22,9 @@ class Board
   end
 
   def fill_row_with_8_empty_cells(row)
-    8.times do
-      row << Cell.new
+    for i in 0..7 do
+      # instantiate a new Cell object and pass it its position as an argument
+      row << Cell.new([row, i])
     end
   end
 end

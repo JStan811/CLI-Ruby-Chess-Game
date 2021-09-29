@@ -9,16 +9,16 @@ class Piece
     @symbol = determine_symbol(color, type)
   end
 
-  attr_reader :color, :type, :symbol
+  attr_reader :color, :type, :owner, :symbol
 
   private
 
   def determine_symbol(color, type)
     case color
     when 'White'
-      set_white_symbol(type)
+      determine_white_symbol(type)
     when 'Black'
-      set_black_symbol(type)
+      determine_black_symbol(type)
     end
   end
 
@@ -39,7 +39,7 @@ class Piece
     end
   end
 
-  def set_black_symbol(type)
+  def determine_black_symbol(type)
     case type
     when 'Rook'
       "\u265C".encode('utf-8')

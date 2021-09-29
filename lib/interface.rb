@@ -43,10 +43,10 @@ class Interface
     @board.cells.each_with_index do |row, index|
       print "row #{index + 1}: "
       row.each do |cell|
-        if cell.cell_contents.nil?
+        if cell.piece.nil?
           print 'empty '
         else
-          print "#{cell.cell_contents.color} #{cell.cell_contents.type} "
+          print "#{cell.piece.color} #{cell.piece.type} "
         end
       end
       puts ''
@@ -57,10 +57,10 @@ class Interface
     @board.cells.each_with_index do |row, index|
       print "row #{index + 1}: "
       row.each do |cell|
-        if cell.cell_contents.nil?
+        if cell.piece.nil?
           print 'empty '
         else
-          print "#{cell.cell_contents.symbol} "
+          print "#{cell.piece.symbol} "
         end
       end
       puts ''
