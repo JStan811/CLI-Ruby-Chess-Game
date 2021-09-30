@@ -45,14 +45,19 @@ class Chess
     ending_cell = convert_player_action_into_ending_cell(player_action)
     # validate if entered text is valid (follows Chess notation)
     @game.validator.valid_notation?(player_action)
+    # validate that starting position and ending position aren't the same
+
     # validate if starting cell has a piece in it
     @game.validator.cell_contains_a_piece?(starting_cell)
     # validate if starting cell contains own piece
     @game.validator.cell_contains_own_piece?(starting_cell, player)
     # validate if action is a valid destination for given piece
     @game.validator.legal_move?(starting_cell, ending_cell)
+    # validate if target cell contains own piece
+    @game.validator.cell_contains_own_piece?(ending_cell, player)
     # validate if move is allowed with current board setup: is there a piece
-    # blocking the way, or is your own piece in the target cell?
+    # blocking the way. n/a for Knight and King (maybe pawn too)
+    @game.validator.path_blocked? unless starting_cell.piece.type == 'Rook' || starting_cell.piece.type == 'King'
 
     # validate if move leaves own king in check
 

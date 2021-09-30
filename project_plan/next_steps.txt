@@ -1,9 +1,21 @@
+1. Refactor the valid destination list methods to:
+  1. take in starting cell, and ending cell
+  2. calculate all possible destinations, excluding cells with pieces in them unless the cell with a piece in it is the target cell.
+    - ah, but how then would we be able to differentiate the type of invalidation for error message purposes?
+    - hm, I could leave the methods that are there, then create new ones that are basically the same but with the blocked path bit
+    - orrrrrrr I could have the error message just say: "Invalid move. Either illegal move for piece type or path blocked" lol...
+    - orrrrrrr_v2 I could write a method that puts a list together of all the empty cells and seeing if the target cell isn't in the list, unless the target cell has an opponent's piece
+      - working on this now
+      - wait why did I even do this?
+  3. Don't need to do this for knights or kings (maybe pawns too)
+
 1. continue Chess#player_action_sequence from line 54
   - be sure to keep writing tests as you go!
 
 2.look at project_plan/chess_psuedocode.txt and continue from where you are
 
 3. W/e order for these:
+  - consider moving converter methods from chess to another class
   - I think you can remove the #convert_notation_to_column_index and #convert_notation_to_row_index tests in chess_spec.rb and then move those methods to private b/c eventually a public method is going to call them where they will be tested
   - clean up MoveValidator#validation list methods
   - figure out what to do with pawn movement - how to know account for diagonal jumps? Currently its considered a valid move, but should only be if there is an opp's pawn to capture. Be sure to update tests once you fix this

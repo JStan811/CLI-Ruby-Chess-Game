@@ -27,6 +27,11 @@ class Validator
     valid_destination_list.include?(ending_cell.position)
   end
 
+  def path_blocked?(empty_cells_list, ending_cell, player)
+    # checks if ending cell is not in list of empty cells, unless the target cell has an opponent's piece
+    !(empty_cells_list.include?(ending_cell) &&
+  end
+
   private
 
   # default color to nil because only pawn needs color
