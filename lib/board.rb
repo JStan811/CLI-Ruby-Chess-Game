@@ -8,12 +8,20 @@ class Board
     # the board is represented by an array of 8 subarrays, each
     # subarray representing a row, starting from the bottom.
     # The index value represents [row][column], ie the cell
-    # at [0,3] is d1 (or White Queen)
+    # at [0,3] is d1 (or White Queen's starting position)
     @cells = [[], [], [], [], [], [], [], []]
     fill_board_with_empty_cells
   end
 
   attr_reader :cells
+
+  def create_empty_cell_list
+    empty_cells = []
+    @cells.each do |row|
+      row.each { |cell| empty_cells << cell if cell.piece.nil? }
+    end
+    empty_cells
+  end
 
   private
 
