@@ -2,13 +2,20 @@
 
 require_relative 'player'
 require_relative 'piece'
+require_relative 'rook'
 require_relative 'board'
 require_relative 'cell'
 require_relative 'chess'
 require_relative 'interface'
 require_relative 'game_builder'
 
-chess = Chess.new
+# chess = Chess.new
+
+white_rook = Rook.new('White', 'p1')
+black_rook = Rook.new('Black', 'p2')
+
+puts white_rook.symbol
+puts black_rook.symbol
 
 # chess.pretty_print_board_text
 

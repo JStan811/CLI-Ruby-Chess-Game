@@ -15,6 +15,8 @@ class Board
 
   attr_reader :cells
 
+  # probably going to delete this (and the test too). Was a misguided attempt
+  # to solve the path blocked? problem
   def create_empty_cell_list
     empty_cells = []
     @cells.each do |row|

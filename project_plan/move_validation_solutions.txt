@@ -1,0 +1,20 @@
+1. take in starting cell, and ending cell
+  2. calculate all possible destinations, excluding cells with pieces in them unless the cell with a piece in it is the target cell.
+    - ah, but how then would we be able to differentiate the type of invalidation for error message purposes?
+    - hm, I could leave the methods that are there, then create new ones that are basically the same but with the blocked path bit
+    - orrrrrrr I could have the error message just say: "Invalid move. Either illegal move for piece type or path blocked" lol...
+    - another way to think about this: keep adding cells to destination list until you hit a non-empty cell (stop on non-empty cell - include if piece is owned by enemy, exclude if owned by you)
+  3. Don't need to do this for knights or kings (maybe pawns too)
+
+- I could write a method to create a list of available cells from a starting cell, then the validate method checks if the ending cell is in that list. A problem with this is there's no way to tell why a cell is unavailable, for logging / UI purposes
+
+- A potential solution to the above problem would be to instead create a list of unavailable cells, each with a 'unavailability_type' code, that is then returned by the validation method. Eg it would return 0 for available, then 1-9 for unavailable, 1 being "Illegal move for piece type", 2 being "occupied by own cell", 3 being "path blocked", etc.
+  - takes starting cell and piece type
+    - Trying Rook first
+      - first calculate all legal moves, then go through full board, adding all cells that aren't legal to unavailable list with type 1
+      - Then go through legal moves, grab cells that are occupied by own piece and add to unavailable list as type 2
+      - Then go through legal moves and once you encounter an occupied cell, add the rest to unavailable list as type 3
+        - ugh but how would differentiate between directions (up, down, left, right)
+        - another problem with this is some cells would be both type 2 and type 3, although I guess I could "add to unavailable list unless already exists in the list", and just decide if a cell is type 2 or 3
+
+- Should I move all available_moves logic to the Piece class (eg piece.available_moves), then have that changed based on the pieces type? Or should I create different classes for each piece type. Then, should these be children of a Piece super class?

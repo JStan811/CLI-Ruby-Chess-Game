@@ -21,6 +21,23 @@ class GameBuilder
 
   private
 
+  # to replace existing starting board and piece creation sequence
+  def build_starting_board_new
+    # starting at first cell, a1, create new white rook with @cell of a1 and
+    # put into cell, then continue until starting board is ready. This way all
+    # the cells have their pieces, and each piece knows which cell it's in. One
+    # thing to be mindful of here is everytime a piece is moved, it will have
+    # to be told where it's moving to
+
+    # creates piece, sends it to cell with Cell#place_piece, then the cell
+    # writes the piece into it's @piece
+
+    # eg for [0][0] (a1):
+    white_rook = Rook.new('White', @player1)
+    cell_a1 = @board[0][0]
+
+  end
+
   def fill_pieces_collection
     fill_with_white_pieces_non_pawns
     fill_with_white_pawns
@@ -29,36 +46,36 @@ class GameBuilder
   end
 
   def fill_with_white_pieces_non_pawns
-    @pieces << Piece.new('White', 'Rook', @player1)
-    @pieces << Piece.new('White', 'Knight', @player1)
-    @pieces << Piece.new('White', 'Bishop', @player1)
-    @pieces << Piece.new('White', 'Queen', @player1)
-    @pieces << Piece.new('White', 'King', @player1)
-    @pieces << Piece.new('White', 'Bishop', @player1)
-    @pieces << Piece.new('White', 'Knight', @player1)
-    @pieces << Piece.new('White', 'Rook', @player1)
+    @pieces << Rook.new('White', @player1)
+    @pieces << Knight.new('White', @player1)
+    @pieces << Bishop.new('White', @player1)
+    @pieces << Queen.new('White',@player1)
+    @pieces << King.new('White',@player1)
+    @pieces << Bishop.new('White',@player1)
+    @pieces << Knight.new('White',@player1)
+    @pieces << Rook.new('White',@player1)
   end
 
   def fill_with_white_pawns
     8.times do
-      @pieces << Piece.new('White', 'Pawn', @player1)
+      @pieces << Pawn.new('White', @player1)
     end
   end
 
   def fill_with_black_pieces_non_pawns
-    @pieces << Piece.new('Black', 'Rook', @player2)
-    @pieces << Piece.new('Black', 'Knight', @player2)
-    @pieces << Piece.new('Black', 'Bishop', @player2)
-    @pieces << Piece.new('Black', 'Queen', @player2)
-    @pieces << Piece.new('Black', 'King', @player2)
-    @pieces << Piece.new('Black', 'Bishop', @player2)
-    @pieces << Piece.new('Black', 'Knight', @player2)
-    @pieces << Piece.new('Black', 'Rook', @player2)
+    @pieces << Rook.new('Black', @player2)
+    @pieces << Knight.new('Black', @player2)
+    @pieces << Bishop.new('Black', @player2)
+    @pieces << Queen.new('Black', @player2)
+    @pieces << King.new('Black', @player2)
+    @pieces << Bishop.new('Black', @player2)
+    @pieces << Knight.new('Black', @player2)
+    @pieces << Rook.new('Black', @player2)
   end
 
   def fill_with_black_pawns
     8.times do
-      @pieces << Piece.new('Black', 'Pawn', @player2)
+      @pieces << Pawn.new('Black', @player2)
     end
   end
 

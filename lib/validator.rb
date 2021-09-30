@@ -34,6 +34,61 @@ class Validator
 
   private
 
+  def available_destinations(starting_cell)
+    # assign piece type and color
+
+    # calculate available destinations by using same logic from before but
+    # adding that the method stop adding when it reaches an occupied cell,
+    # adding it only if its opp's piece
+  end
+
+  def available_cells_rook(starting_cell, board, player)
+    # assign piece type and color
+
+    # calculate available destinations by using same logic from before but
+    # adding that the method stop adding when it reaches an occupied cell,
+    # adding it only if its opp's piece
+
+    available_cells = []
+    row = starting_cell.position[0]
+    column = starting_cell.position[1]
+    # include next cell up unless occupied by your own piece
+    available_cells << board[row + 1][column] unless board[row + 1][column].piece.owner == player
+    row += 1
+    # if cell was added in previous step, loop the same logic until previous
+    # piece is occupied or edge, else don't do anything (b/c path is blocked)
+
+    until !(board[row - 1][column].piece.nil?) || row - 1 == 7
+      available_cells << board[row + 1][column]
+      row += 1
+    # loop that adds down until the previous cell was occupied or edge
+    until !(board[row  1][column].piece.nil?) || row - 1 == 7
+      available_cells << board[row + 1][column]
+    # loop that adds left until the previous cell was occupied or edge
+    # loop that adds right until the previous cell was occupied or edge
+    for i in 0..7 do
+      rook_destinations << [starting_row_index, i]
+    end
+    for i in 0..7 do
+      rook_destinations << [i, starting_column_index]
+    end
+    rook_destinations.delete [starting_column_index, starting_row_index]
+    rook_destinations
+
+    # old logic:
+    # rook_destinations = []
+    # starting_row_index = starting_cell_position[0]
+    # starting_column_index = starting_cell_position[1]
+    # for i in 0..7 do
+    #   rook_destinations << [starting_row_index, i]
+    # end
+    # for i in 0..7 do
+    #   rook_destinations << [i, starting_column_index]
+    # end
+    # rook_destinations.delete [starting_column_index, starting_row_index]
+    # rook_destinations
+  end
+
   # default color to nil because only pawn needs color
   def create_valid_destination_list(piece_type, piece_color, starting_cell_position)
     case piece_type
