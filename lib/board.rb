@@ -28,13 +28,13 @@ class Board
   private
 
   def fill_board_with_empty_cells
-    @cells.each { |row| fill_row_with_8_empty_cells(row) }
+    @cells.each_with_index { |row, index| fill_row_with_8_empty_cells(row, index) }
   end
 
-  def fill_row_with_8_empty_cells(row)
+  def fill_row_with_8_empty_cells(row, row_index)
     for i in 0..7 do
       # instantiate a new Cell object and pass it its position as an argument
-      row << Cell.new([row, i])
+      row << Cell.new([row_index, i])
     end
   end
 end

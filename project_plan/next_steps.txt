@@ -1,5 +1,6 @@
 First:
-1. For this branch, finish each piece's #available_moves (start with rook, the logic for it is starting in validator.rb) then GameBuilder's #build_starting_board_new
+1. On dev branch, finish rook tests at rook_sepc.rb, then finish each piece's #available_moves and tests (use Rook's as a guide) then GameBuilder's #build_starting_board_new and tests
+    ****Don't forget to write tests
 
 Then:
 1. Refactor the valid destination list methods (notes in move_validation_solutions.txt)
