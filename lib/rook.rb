@@ -5,8 +5,7 @@ require_relative 'piece'
 class Rook < Piece
   def available_destinations(starting_cell, board_state)
     # reads board state to determine which cells are available to it from the starting cell
-    available_destinations = []
-    available_destinations += available_destinations_up(starting_cell, board_state)
+    available_destinations = available_destinations_up(starting_cell, board_state)
     available_destinations += available_destinations_right(starting_cell, board_state)
     available_destinations += available_destinations_down(starting_cell, board_state)
     available_destinations += available_destinations_left(starting_cell, board_state)

@@ -1,5 +1,5 @@
 First:
-1. On dev branch, finish rook tests at rook_sepc.rb, then finish each piece's #available_moves and tests (use Rook's as a guide) then GameBuilder's #build_starting_board_new and tests
+1. On dev branch, finish rook tests at rook_spc.rb, then finish each piece's #available_moves and tests (use Rook's as a guide) then GameBuilder's #build_starting_board_new and tests
     ****Don't forget to write tests
 
 Then:
@@ -30,3 +30,6 @@ Extras
   - Decide player color randomly
   - Add functionality for special moves - Castling, En passant, Promotion
   - Code for standard chess notation: see branch standard_notation
+  - Move piece class files into lib/pieces
+  - Potential improvement (but big change): code board as a grid object, one where each cell has pointers to all of its neighbors
+  - Look at another project to see where my require_relatives should be? (in the driver script/test scripts or within each class?)
