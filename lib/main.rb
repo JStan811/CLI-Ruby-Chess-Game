@@ -16,4 +16,4 @@ require_relative 'game_builder'
 
 game = GameBuilder.new
 
-game.interface.pretty_print_board_text(game.board)
+game.interface.display_board_v1(game.board)
