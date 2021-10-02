@@ -25,8 +25,6 @@ class Chess
     @game.interface.solicit_save_quit_response
     # Ask player for move/action
     player action = player_action_sequence(player)
-    # check if valid move
-    @game.validator.validate_action(player_action)
     # update board
     @game.board.update_board(player_action)
     # check for check
@@ -38,31 +36,47 @@ class Chess
     # proceeed to next interation of loop
   end
 
+  # rubocop: disable Metrics
   def player_action_sequence(player)
-    # ask player for action
-    player_action = @game.interface.solicit_player_action
-    starting_cell = convert_player_action_into_starting_cell(player_action)
-    ending_cell = convert_player_action_into_ending_cell(player_action)
-    # validate if entered text is valid (follows Chess notation)
-    @game.validator.valid_notation?(player_action)
-    # validate that starting position and ending position aren't the same
-
-    # validate if starting cell has a piece in it
-    @game.validator.cell_contains_a_piece?(starting_cell)
-    # validate if starting cell contains own piece
-    @game.validator.cell_contains_own_piece?(starting_cell, player)
-    # validate if action is a valid destination for given piece
-    @game.validator.legal_move?(starting_cell, ending_cell)
-    # validate if target cell contains own piece
-    @game.validator.cell_contains_own_piece?(ending_cell, player)
-    # validate if move is allowed with current board setup: is there a piece
-    # blocking the way. n/a for Knight and King (maybe pawn too)
-    @game.validator.path_blocked? unless starting_cell.piece.type == 'Rook' || starting_cell.piece.type == 'King'
-
-    # validate if move leaves own king in check
-
-    # if all validations pass, accept player action
+    loop do
+      # ask player for action
+      player_action = @game.interface.solicit_player_action
+      # validate if entered text is valid (follows Chess notation)
+      unless @game.validator.valid_notation?(player_action)
+        puts 'Invalid notation.'
+        next
+      end
+      # pull out starting and ending cells from action
+      starting_cell = convert_player_action_into_starting_cell(player_action)
+      ending_cell = convert_player_action_into_ending_cell(player_action)
+      # validate that starting position and ending position aren't the same
+      unless @game.validator.different_start_and_end_cells?(starting_cell, ending_cell)
+        puts 'The starting and ending cells are the same.'
+        next
+      end
+      # validate if starting cell contains own piece
+      unless @game.validator.starting_cell_contains_own_piece?(starting_cell, player)
+        puts 'Starting cell does not contain your own piece.'
+        next
+      end
+      # validate if action is a valid destination for given piece
+      unless @game.validator.legal_move?(starting_cell, ending_cell, @game.board.cells)
+        puts 'Illegal move for this piece.'
+        next
+      end
+      # if moving King, validate if move leaves it in Check
+      if starting_cell.piece.instance_of?(King)
+        if @game.validator.own_king_into_check?(ending_cell, player, @game.board.cells)
+          puts 'Move puts your own King into Check.'
+          next
+        end
+      end
+      # if all validations pass, accept player action
+      break
+    end
+    player_action
   end
+  # rubocop: enable Metrics
 
   def convert_notation_to_column_index(notated_cell)
     notated_cell_as_char_array = notated_cell.split('')

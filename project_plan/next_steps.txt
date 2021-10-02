@@ -1,14 +1,4 @@
-First:
-1. On dev branch, finish rook tests at rook_spec.rb, then finish each piece's #available_moves and tests (use Rook's as a guide) then GameBuilder's #build_starting_board_new and tests
-    ****Don't forget to write tests
-
-Then:
-1. Refactor the valid destination list methods (notes in move_validation_solutions.txt)
-
-how to fix pawn movement problem: during validate destinations step, only add diagonals if end cell is occupied by opp's piece
-
-1. continue Chess#player_action_sequence from line 54
-  - be sure to keep writing tests as you go!
+1. Write tests for Validator and Chess methods
 
 2.look at project_plan/chess_psuedocode.txt and continue from where you are
 
@@ -18,7 +8,6 @@ how to fix pawn movement problem: during validate destinations step, only add di
   - clean up MoveValidator#validation list methods
   - figure out what to do with pawn movement - how to know account for diagonal jumps? Currently its considered a valid move, but should only be if there is an opp's pawn to capture. Be sure to update tests once you fix this
   - Write tests
-  - Finish board design, see last commit for more info
   - can I make symbols bigger?
   - for Interface#solicit_player_action, create some mechanism that allows the player to enter 'help' for instructions about Chess notation
 
