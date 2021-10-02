@@ -1,5 +1,7 @@
 1. Write tests for Validator and Chess methods
 
+2. Continue turn loop from chess.rb:29
+
 2.look at project_plan/chess_psuedocode.txt and continue from where you are
 
 3. W/e order for these:
