@@ -1,5 +1,5 @@
 First:
-1. On dev branch, finish rook tests at rook_spc.rb, then finish each piece's #available_moves and tests (use Rook's as a guide) then GameBuilder's #build_starting_board_new and tests
+1. On dev branch, finish rook tests at rook_spec.rb, then finish each piece's #available_moves and tests (use Rook's as a guide) then GameBuilder's #build_starting_board_new and tests
     ****Don't forget to write tests
 
 Then:

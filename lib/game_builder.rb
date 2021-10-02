@@ -10,74 +10,14 @@ class GameBuilder
   def initialize
     @player1 = Player.new('Player 1', 'White')
     @player2 = Player.new('Player 2', 'Black')
-    @pieces = []
-    fill_pieces_collection
     @board = Board.new
     build_starting_board
     @interface = Interface.new
   end
 
-  attr_reader :interface, :validator
+  attr_reader :interface, :validator, :board
 
   private
-
-  # to replace existing starting board and piece creation sequence
-  def build_starting_board_new
-    # starting at first cell, a1, create new white rook with @cell of a1 and
-    # put into cell, then continue until starting board is ready. This way all
-    # the cells have their pieces, and each piece knows which cell it's in. One
-    # thing to be mindful of here is everytime a piece is moved, it will have
-    # to be told where it's moving to
-
-    # creates piece, sends it to cell with Cell#place_piece, then the cell
-    # writes the piece into it's @piece
-
-    # eg for [0][0] (a1):
-    white_rook = Rook.new('White', @player1)
-    cell_a1 = @board[0][0]
-
-  end
-
-  def fill_pieces_collection
-    fill_with_white_pieces_non_pawns
-    fill_with_white_pawns
-    fill_with_black_pieces_non_pawns
-    fill_with_black_pawns
-  end
-
-  def fill_with_white_pieces_non_pawns
-    @pieces << Rook.new('White', @player1)
-    @pieces << Knight.new('White', @player1)
-    @pieces << Bishop.new('White', @player1)
-    @pieces << Queen.new('White',@player1)
-    @pieces << King.new('White',@player1)
-    @pieces << Bishop.new('White',@player1)
-    @pieces << Knight.new('White',@player1)
-    @pieces << Rook.new('White',@player1)
-  end
-
-  def fill_with_white_pawns
-    8.times do
-      @pieces << Pawn.new('White', @player1)
-    end
-  end
-
-  def fill_with_black_pieces_non_pawns
-    @pieces << Rook.new('Black', @player2)
-    @pieces << Knight.new('Black', @player2)
-    @pieces << Bishop.new('Black', @player2)
-    @pieces << Queen.new('Black', @player2)
-    @pieces << King.new('Black', @player2)
-    @pieces << Bishop.new('Black', @player2)
-    @pieces << Knight.new('Black', @player2)
-    @pieces << Rook.new('Black', @player2)
-  end
-
-  def fill_with_black_pawns
-    8.times do
-      @pieces << Pawn.new('Black', @player2)
-    end
-  end
 
   def build_starting_board
     place_white_starting_pieces
@@ -85,62 +25,43 @@ class GameBuilder
   end
 
   def place_white_starting_pieces
-    place_piece(0, 0, 'White', 'Rook')
-    place_piece(0, 1, 'White', 'Knight')
-    place_piece(0, 2, 'White', 'Bishop')
-    place_piece(0, 3, 'White', 'Queen')
-    place_piece(0, 4, 'White', 'King')
-    place_piece(0, 5, 'White', 'Bishop')
-    place_piece(0, 6, 'White', 'Knight')
-    place_piece(0, 7, 'White', 'Rook')
+    place_piece(0, 0, Rook.new('White', 'Player 1'))
+    place_piece(0, 1, Knight.new('White', 'Player 1'))
+    place_piece(0, 2, Bishop.new('White', 'Player 1'))
+    place_piece(0, 3, Queen.new('White', 'Player 1'))
+    place_piece(0, 4, King.new('White', 'Player 1'))
+    place_piece(0, 5, Bishop.new('White', 'Player 1'))
+    place_piece(0, 6, Knight.new('White', 'Player 1'))
+    place_piece(0, 7, Rook.new('White', 'Player 1'))
     place_white_starting_pawns
   end
 
-  def place_piece(target_row_index, target_column_index, piece_color, piece_type)
-    piece = pull_piece(piece_color, piece_type)
-    cell = @board.cells[target_row_index][target_column_index]
+  def place_piece(row_index, column_index, piece)
+    cell = @board.cells[row_index][column_index]
     cell.place_piece(piece)
   end
 
-  def pull_piece(piece_color, piece_type)
-    # find first piece in collection matching given color and type
-    pulled_piece = @pieces.find { |piece| piece.color == piece_color && piece.type == piece_type }
-    # pull (delete) piece from collection
-    @pieces.delete pulled_piece
-    pulled_piece
-  end
-
   def place_white_starting_pawns
-    place_piece(1, 0, 'White', 'Pawn')
-    place_piece(1, 1, 'White', 'Pawn')
-    place_piece(1, 2, 'White', 'Pawn')
-    place_piece(1, 3, 'White', 'Pawn')
-    place_piece(1, 4, 'White', 'Pawn')
-    place_piece(1, 5, 'White', 'Pawn')
-    place_piece(1, 6, 'White', 'Pawn')
-    place_piece(1, 7, 'White', 'Pawn')
+    for i in 0..7
+      place_piece(1, i, Pawn.new('White', 'Player 1'))
+    end
   end
 
   def place_black_starting_pieces
     place_black_starting_pawns
-    place_piece(7, 0, 'Black', 'Rook')
-    place_piece(7, 1, 'Black', 'Knight')
-    place_piece(7, 2, 'Black', 'Bishop')
-    place_piece(7, 3, 'Black', 'Queen')
-    place_piece(7, 4, 'Black', 'King')
-    place_piece(7, 5, 'Black', 'Bishop')
-    place_piece(7, 6, 'Black', 'Knight')
-    place_piece(7, 7, 'Black', 'Rook')
+    place_piece(7, 0, Rook.new('Black', 'Player 2'))
+    place_piece(7, 1, Knight.new('Black', 'Player 2'))
+    place_piece(7, 2, Bishop.new('Black', 'Player 2'))
+    place_piece(7, 3, Queen.new('Black', 'Player 2'))
+    place_piece(7, 4, King.new('Black', 'Player 2'))
+    place_piece(7, 5, Bishop.new('Black', 'Player 2'))
+    place_piece(7, 6, Knight.new('Black', 'Player 2'))
+    place_piece(7, 7, Rook.new('Black', 'Player 2'))
   end
 
   def place_black_starting_pawns
-    place_piece(6, 0, 'Black', 'Pawn')
-    place_piece(6, 1, 'Black', 'Pawn')
-    place_piece(6, 2, 'Black', 'Pawn')
-    place_piece(6, 3, 'Black', 'Pawn')
-    place_piece(6, 4, 'Black', 'Pawn')
-    place_piece(6, 5, 'Black', 'Pawn')
-    place_piece(6, 6, 'Black', 'Pawn')
-    place_piece(6, 7, 'Black', 'Pawn')
+    for i in 0..7
+      place_piece(6, i, Pawn.new('Black', 'Player 2'))
+    end
   end
 end

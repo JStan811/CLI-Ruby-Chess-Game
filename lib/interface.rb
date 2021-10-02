@@ -19,34 +19,16 @@ class Interface
     gets.chomp
   end
 
-  private
-
-  def display_welcome_message
-    puts 'Welcome to Chess!'
-    puts ''
-  end
-
-  def display_instructions
-    puts 'These are your instructions: '
-    puts '(Instructions to be filled in later :D...)'
-    puts ''
-  end
-
-  def display_load_game_option
-    puts 'Would you like load a previous game? (y/n)'
-    puts ''
-  end
-
-  # using to test board creation and changes. May end up transforming into the
+    # using to test board creation and changes. May end up transforming into the
   # display board method
-  def pretty_print_board_text
-    @board.cells.each_with_index do |row, index|
+  def pretty_print_board_text(board)
+    board.cells.each_with_index do |row, index|
       print "row #{index + 1}: "
       row.each do |cell|
         if cell.piece.nil?
           print 'empty '
         else
-          print "#{cell.piece.color} #{cell.piece.type} "
+          print "#{cell.piece.color} #{cell.piece.class} "
         end
       end
       puts ''
@@ -65,6 +47,24 @@ class Interface
       end
       puts ''
     end
+  end
+
+  private
+
+  def display_welcome_message
+    puts 'Welcome to Chess!'
+    puts ''
+  end
+
+  def display_instructions
+    puts 'These are your instructions: '
+    puts '(Instructions to be filled in later :D...)'
+    puts ''
+  end
+
+  def display_load_game_option
+    puts 'Would you like load a previous game? (y/n)'
+    puts ''
   end
 
   def display_board_v1
