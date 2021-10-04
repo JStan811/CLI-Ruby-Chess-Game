@@ -12,10 +12,10 @@ class Chess
   def play_chess
     @game.interface.display_introduction
     loop do
-      turn_loop
-      # force exit now for testing purposes, eventually I'll throw the
-      # 'exit' command into the turn loop itself
-      exit
+      @game.interface.display_board(@game.board)
+      turn_loop(@game.player1)
+      @game.interface.display_board(@game.board)
+      turn_loop(@game.player2)
     end
   end
 
@@ -25,7 +25,7 @@ class Chess
     @game.interface.solicit_save_quit_response
     # check for check
     if @game.validator.self_check?(player, @game.board.cells)
-      puts "#{player.name}, your King is in Check. You must move it to a position where it is no longer in check."
+      puts "#{player.name}, your king is in check. Your move must result in a position where the king is no longer in check."
     end
     # Ask player for move/action
     player_action = player_action_sequence(player)
@@ -36,19 +36,19 @@ class Chess
     @game.board.update_board(starting_cell, ending_cell)
     # check for checkmate
     if @game.validator.opp_check_mate?(player, @game.board.cells)
-      puts "Check mate. #{player.name} wins."
+      @game.interface.display_board(@game.board)
+      puts "Checkmate. #{player.name} wins."
       exit
     end
-    # check for draw
-    @game.validator.draw?(@game.board.board_state)
     # proceeed to next interation of loop
   end
 
   # rubocop: disable Metrics
   def player_action_sequence(player)
+    player_action = ''
     loop do
       # ask player for action
-      player_action = @game.interface.solicit_player_action
+      player_action = @game.interface.solicit_player_action(player)
       # validate if entered text is valid (follows Chess notation)
       unless @game.validator.valid_notation?(player_action)
         puts 'Invalid notation.'
@@ -107,7 +107,7 @@ class Chess
     notated_starting_cell = "#{action_as_char_array[0]}#{action_as_char_array[1]}"
     starting_cell_row_index = convert_notation_to_row_index(notated_starting_cell)
     starting_cell_column_index = convert_notation_to_column_index(notated_starting_cell)
-    @board.cells[starting_cell_row_index][starting_cell_column_index]
+    @game.board.cells[starting_cell_row_index][starting_cell_column_index]
   end
 
   def convert_player_action_into_ending_cell(player_action)
@@ -116,7 +116,7 @@ class Chess
     notated_ending_cell = "#{action_as_char_array[2]}#{action_as_char_array[3]}"
     ending_cell_row_index = convert_notation_to_row_index(notated_ending_cell)
     ending_cell_column_index = convert_notation_to_column_index(notated_ending_cell)
-    @board.cells[ending_cell_row_index][ending_cell_column_index]
+    @game.board.cells[ending_cell_row_index][ending_cell_column_index]
   end
 
   def determine_piece_type_from_notated_cell(player_action)
