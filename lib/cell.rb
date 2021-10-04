@@ -12,4 +12,8 @@ class Cell
   def place_piece(piece)
     @piece = piece
   end
+
+  def remove_piece
+    @piece = nil
+  end
 end

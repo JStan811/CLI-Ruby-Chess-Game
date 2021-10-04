@@ -17,8 +17,8 @@ class Board
 
   def update_board(starting_cell, ending_cell)
     piece_to_move = starting_cell.piece
-    starting_cell.piece = nil
-    ending_cell.piece = piece_to_move
+    starting_cell.remove_piece
+    ending_cell.place_piece(piece_to_move)
   end
 
   private
