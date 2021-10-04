@@ -6,4 +6,6 @@ class Player
     @name = name
     @color = color
   end
+
+  attr_reader :name
 end
