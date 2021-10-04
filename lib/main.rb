@@ -14,6 +14,6 @@ require_relative 'chess'
 require_relative 'interface'
 require_relative 'game_builder'
 
-game = GameBuilder.new
+chess = Chess.new
 
-game.interface.display_board_v1(game.board)
+chess.play_chess
