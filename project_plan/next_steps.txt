@@ -1,8 +1,6 @@
 1. Write tests for Validator and Chess methods
   - Skipping for the sake of time :/
 
-2. Continue turn loop from chess.rb:29
-
 2.look at project_plan/chess_psuedocode.txt and continue from where you are
 
 3. W/e order for these:
@@ -10,8 +8,11 @@
   - consider moving converter methods from chess to another class
   - I think you can remove the #convert_notation_to_column_index and #convert_notation_to_row_index tests in chess_spec.rb and then move those methods to private b/c eventually a public method is going to call them where they will be tested
   - Write tests
-  - can I make symbols bigger?
-  - for Interface#solicit_player_action, create some mechanism that allows the player to enter 'help' for instructions about Chess notation
+    - Think about or look up common check and checkmate positions and create boards in those positions (or one move prior to them) to test
+  - turn all displayed messages in Chess into Interface methods
+  - Improve UI - instructions, all display messages, etc.
+  - enforce save file name (when saving and loading) somehow (to stop user from entering nothing or a space, or already exists, etc.)
+  - add in support for Castling, En passant, and Promotion
 
 4. At the end, re-read the illustrated chess rules site to see if I missed anything
 
@@ -25,3 +26,6 @@ Extras
   - Potential improvement (but big change): code board as a grid object, one where each cell has pointers to all of its neighbors
   - Look at another project to see where my require_relatives should be? (in the driver script/test scripts or within each class?)
   - Add display messages for different events: "Pawn captures pawn.", "Pawn promoted to Queen.", "Player 2 King in check", etc.
+  - Add support for game draws (see Wiki for types).
+  - flip the board when active player switches
+  - can I make symbols bigger?
