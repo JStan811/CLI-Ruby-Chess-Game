@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
+# rubocop: disable Metrics/ClassLength
 # to house methods for interfacing with user
 class Interface
-  def display_introduction
-    display_welcome_message
-    display_instructions
-    display_load_game_option
+  def display_instructions
+    puts ''
+    puts "Game move notation is 'starting cell''ending cell'. For example, to move a piece from a2 to a4, enter 'a2a4'."
+    puts ''
   end
 
   def solicit_save_quit_response
@@ -13,12 +14,82 @@ class Interface
     gets.chomp
   end
 
-  def solicit_player_action(player)
-    display_request_for_player_action(player)
-    gets.chomp
+  def load_game_display(database)
+    puts "Would you like to load a previously saved game? Enter 'y' for yes. Any other response will take you through to a new game."
+    response = gets.chomp
+    return unless response == 'y'
+
+    load_game_menu(database)
   end
 
-    # using to test board creation and changes. May end up transforming into the
+  def load_game_menu(database)
+    game = ''
+    loop do
+      puts 'Enter the number of your game file.'
+        filenames = Dir.entries('save_files')
+        filenames.each_with_index do |filename, i|
+          puts "#{i}. #{filename.delete_suffix '.yaml'}" unless filename == '.' || filename == '..'
+        end
+        # for each save file, print it with an incrementing number preceding it
+        file_index = gets.chomp.to_i # unless entry is invalid
+        puts ''
+      begin
+        game = database.load_game(filenames[file_index])
+      rescue Errno::EISDIR
+        puts 'Invalid entry'
+        puts ''
+      else
+        break
+      end
+    end
+    game
+  end
+
+  def solicit_player_action(player, game, database)
+    player_action = ''
+    loop do
+      puts "#{player.name}, enter your game move or type 's' to be taken to save/quit menu."
+      player_action = gets.chomp
+      break unless player_action == 's'
+
+      save_quit_menu(game, database)
+    end
+    player_action
+  end
+
+  # rubocop: disable Metrics/AbcSize
+  # rubocop: disable Metrics/MethodLength
+  def save_quit_menu(game, database)
+    puts 'Enter the number of your choice:'
+    puts '1. Save game and continue playing.'
+    puts '2. Save game and quit.'
+    puts '3. Quit without saving.'
+    response = gets.chomp
+    case response
+    when '1'
+      puts 'Enter a name for your save file: '
+      filename = gets.chomp # unless user input invalid
+      database.save_game(game, filename)
+      puts 'Game saved.'
+    when '2'
+      puts 'Enter a name for your save file: '
+      filename = gets.chomp # unless user input invalid
+      database.save_game(game, filename)
+      puts 'Game saved.'
+      puts 'Game exiting.'
+      exit
+    when '3'
+      puts 'Game exiting.'
+      exit
+    else
+      puts 'Invalid entry.'
+      save_quit_menu(game, database)
+    end
+  end
+  # rubocop: enable Metrics/AbcSize
+  # rubocop: enable Metrics/MethodLength
+
+  # using to test board creation and changes. May end up transforming into the
   # display board method
   def pretty_print_board_text(board)
     board.cells.each_with_index do |row, index|
@@ -83,17 +154,6 @@ class Interface
 
   private
 
-  def display_welcome_message
-    puts 'Welcome to Chess!'
-    puts ''
-  end
-
-  def display_instructions
-    puts 'These are your instructions: '
-    puts '(Instructions to be filled in later :D...)'
-    puts ''
-  end
-
   def display_load_game_option
     puts 'Would you like load a previous game? (y/n)'
     puts ''
@@ -101,12 +161,5 @@ class Interface
 
   def display_save_quit_option
     puts "Would you like to save and/or quit the game? (type 's' for save, 'q' for quit, 'sq' for both)"
-  end
-
-  def display_request_for_player_action(player)
-    puts "#{player.name}, enter your move: "
-    # should I explain instructions each time this is printed or just at the
-    # beginning? or maybe only if a move entered is invalid?
-    # oh! I could also put a "type 'help' for instructions"
   end
 end

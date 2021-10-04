@@ -10,7 +10,8 @@ class Chess
   end
 
   def play_chess
-    @game.interface.display_introduction
+    @game.interface.display_instructions
+
     loop do
       @game.interface.display_board(@game.board)
       turn_loop(@game.player1)
@@ -20,9 +21,6 @@ class Chess
   end
 
   def turn_loop(player)
-    # Ask player if they would like to save game and/or quit
-    # based on response, engage save mechanism and/or exit game
-    @game.interface.solicit_save_quit_response
     # check for check
     if @game.validator.self_check?(player, @game.board.cells)
       puts "#{player.name}, your king is in check. Your move must result in a position where the king is no longer in check."
@@ -40,7 +38,7 @@ class Chess
       puts "Checkmate. #{player.name} wins."
       exit
     end
-    # proceeed to next interation of loop
+    # proceeed to next iteration of loop
   end
 
   # rubocop: disable Metrics
@@ -48,10 +46,10 @@ class Chess
     player_action = ''
     loop do
       # ask player for action
-      player_action = @game.interface.solicit_player_action(player)
+      player_action = @game.interface.solicit_player_action(player, self, @game.database)
       # validate if entered text is valid (follows Chess notation)
       unless @game.validator.valid_notation?(player_action)
-        puts 'Invalid notation.'
+        puts "Invalid notation. Game move notation is 'starting cell''ending cell'. For example, to move a piece from a2 to a4, enter 'a2a4'."
         next
       end
       # pull out starting and ending cells from action

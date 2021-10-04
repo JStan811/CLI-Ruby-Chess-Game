@@ -5,6 +5,7 @@ require_relative 'board'
 require_relative 'interface'
 require_relative 'piece'
 require_relative 'validator'
+require_relative 'database'
 
 # this class is meant to build or setup the game
 class GameBuilder
@@ -15,9 +16,10 @@ class GameBuilder
     build_starting_board
     @interface = Interface.new
     @validator = Validator.new
+    @database = Database.new
   end
 
-  attr_reader :interface, :validator, :board, :player1, :player2
+  attr_reader :player1, :player2, :board, :interface, :validator, :database
 
   private
 
