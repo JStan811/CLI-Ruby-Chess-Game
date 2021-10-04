@@ -41,7 +41,97 @@ class Validator
     result
   end
 
-  # if I want to combine all of the validations into one step:
+  def self_check?(player, board_state)
+    result = false
+    # find player's King's cell
+    king_cell = find_self_king_cell(player, board_state)
+    # run available_destinations for every opponent's piece on the board and
+    # seeing if your king's cell is in any of them
+    board_state.each do |cell|
+      # skip cell if its empty or if you own the piece in it
+      next if cell.piece.nil? || cell.piece.owner == player
+
+      # your king is in check if any of your opponent's pieces legal moves
+      # capture it
+      result = true if cell.piece.available_destinations(cell, board_state).include?(king_cell)
+    end
+    result
+  end
+
+  def opponent_check?(player, board_state)
+    result = false
+    # find player's opp's King's cell
+    opp_king_cell = find_opp_king_cell(player, board_state)
+    # run available_destinations for all of your pieces on the board and
+    # seeing if opp's king's cell is in any of them
+    board_state.each do |cell|
+      # skip cell if its empty or if opp owns the piece in it
+      next if cell.piece.nil? || cell.piece.owner != player
+
+      # your opp's king is in check if any of your pieces' legal moves
+      # capture it
+      result = true if cell.piece.available_destinations(cell, board_state).include?(opp_king_cell)
+    end
+    result
+  end
+
+  # this is redundant with the other check checks
+  def opp_check_from_cell?(cell_to_eval, player, board_state)
+    result = false
+    # evaluate whether any of your pieces are able to capture the king in the
+    # cell_to_eval
+    board_state.each do |cell|
+      # skip cell if its empty or if opp owns the piece in it
+      next if cell.piece.nil? || cell.piece.owner != player
+
+      # your opp's king is in check if any of your pieces' legal moves
+      # capture it
+      result = true if cell.piece.available_destinations(cell, board_state).include?(cell_to_eval)
+    end
+    result
+  end
+
+  def opp_check_mate?(player, board_state)
+    return false unless opponent_check?(player, board_state)
+
+    result = true
+    # find player's opp's king cell
+    opp_king_cell = find_opp_king_cell(player, board_state)
+
+    # find all opp's king's available destinations and see if it is in check
+    # all of them
+    opp_king_available_destinations = opp_king_cell.piece.available_destinations(cell, board_state)
+
+    opp_king_available_destinations.each do |dest|
+      result = false unless opp_check_from_cell?(dest, player, board_state)
+    end
+    result
+  end
+
+  def find_self_king_cell(player, board_state)
+    self_king_cell = nil
+    board_state.each do |cell|
+      # skip cell if its empty or if your opp owns the piece in it
+      next if cell.piece.nil? || cell.piece.owner != player
+
+      self_king_cell = cell if cell.piece.instance_of?(King)
+    end
+    self_king_cell
+  end
+
+  def find_opp_king_cell(player, board_state)
+    opp_king_cell = nil
+    board_state.each do |cell|
+      # skip cell if its empty or if you own the piece in it
+      next if cell.piece.nil? || cell.piece.owner == player
+
+      opp_king_cell = cell if cell.piece.instance_of?(King)
+    end
+    opp_king_cell
+  end
+
+  # Not currently in use - if I want to combine all of the validations into one
+  # step:
   def valid_action?(player_action, player, starting_cell, ending_cell, board_state)
     valid_notation?(player_action) && different_start_and_end_cells?(starting_cell, ending_cell) && starting_cell_contains_own_piece?(starting_cell, player) && legal_move?(staring_cell, ending_cell, board_state)
   end

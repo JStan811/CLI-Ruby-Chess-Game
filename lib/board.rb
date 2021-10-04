@@ -15,6 +15,12 @@ class Board
 
   attr_reader :cells
 
+  def update_board(starting_cell, ending_cell)
+    piece_to_move = starting_cell.piece
+    starting_cell.piece = nil
+    ending_cell.piece = piece_to_move
+  end
+
   private
 
   def fill_board_with_empty_cells

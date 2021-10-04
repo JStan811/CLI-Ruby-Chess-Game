@@ -23,14 +23,22 @@ class Chess
     # Ask player if they would like to save game and/or quit
     # based on response, engage save mechanism and/or exit game
     @game.interface.solicit_save_quit_response
-    # Ask player for move/action
-    player action = player_action_sequence(player)
-    # update board
-    @game.board.update_board(player_action)
     # check for check
-    @game.validator.check?(@game.board.board_state)
+    if @game.validator.self_check?(player, @game.board.cells)
+      puts "#{player.name}, your King is in Check. You must move it to a position where it is no longer in check."
+    end
+    # Ask player for move/action
+    player_action = player_action_sequence(player)
+    # turn user input notation into starting and ending cells
+    starting_cell = convert_player_action_into_starting_cell(player_action)
+    ending_cell = convert_player_action_into_ending_cell(player_action)
+    # update board
+    @game.board.update_board(starting_cell, ending_cell)
     # check for checkmate
-    @game.validator.check_mate?(@game.board.board_state)
+    if @game.validator.opp_check_mate?(player, @game.board.cells)
+      puts "Check mate. #{player.name} wins."
+      exit
+    end
     # check for draw
     @game.validator.draw?(@game.board.board_state)
     # proceeed to next interation of loop

@@ -6,6 +6,7 @@
 2.look at project_plan/chess_psuedocode.txt and continue from where you are
 
 3. W/e order for these:
+  - build a loop to make sure a player moves their king out of check, chess.rb:27
   - consider moving converter methods from chess to another class
   - I think you can remove the #convert_notation_to_column_index and #convert_notation_to_row_index tests in chess_spec.rb and then move those methods to private b/c eventually a public method is going to call them where they will be tested
   - Write tests
@@ -23,3 +24,4 @@ Extras
   - Move piece class files into lib/pieces
   - Potential improvement (but big change): code board as a grid object, one where each cell has pointers to all of its neighbors
   - Look at another project to see where my require_relatives should be? (in the driver script/test scripts or within each class?)
+  - Add display messages for different events: "Pawn captures pawn.", "Pawn promoted to Queen.", "Player 2 King in check", etc.
