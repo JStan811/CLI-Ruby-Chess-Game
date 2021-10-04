@@ -15,16 +15,6 @@ class Board
 
   attr_reader :cells
 
-  # probably going to delete this (and the test too). Was a misguided attempt
-  # to solve the path blocked? problem
-  def create_empty_cell_list
-    empty_cells = []
-    @cells.each do |row|
-      row.each { |cell| empty_cells << cell if cell.piece.nil? }
-    end
-    empty_cells
-  end
-
   private
 
   def fill_board_with_empty_cells

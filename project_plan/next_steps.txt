@@ -1,4 +1,5 @@
 1. Write tests for Validator and Chess methods
+  - Skipping for the sake of time :/
 
 2. Continue turn loop from chess.rb:29
 
@@ -7,8 +8,6 @@
 3. W/e order for these:
   - consider moving converter methods from chess to another class
   - I think you can remove the #convert_notation_to_column_index and #convert_notation_to_row_index tests in chess_spec.rb and then move those methods to private b/c eventually a public method is going to call them where they will be tested
-  - clean up MoveValidator#validation list methods
-  - figure out what to do with pawn movement - how to know account for diagonal jumps? Currently its considered a valid move, but should only be if there is an opp's pawn to capture. Be sure to update tests once you fix this
   - Write tests
   - can I make symbols bigger?
   - for Interface#solicit_player_action, create some mechanism that allows the player to enter 'help' for instructions about Chess notation
