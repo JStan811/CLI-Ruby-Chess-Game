@@ -101,6 +101,8 @@ class Chess
   end
   # rubocop: enable Metrics
 
+  private
+
   def convert_notation_to_column_index(notated_cell)
     notated_cell_as_char_array = notated_cell.split('')
     notated_column = notated_cell_as_char_array[0]
@@ -113,8 +115,6 @@ class Chess
     notated_row = notated_cell_as_char_array[1].to_i
     notated_row - 1
   end
-
-  private
 
   def convert_player_action_into_starting_cell(player_action)
     action_as_char_array = player_action.split('')

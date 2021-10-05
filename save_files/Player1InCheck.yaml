@@ -427,3 +427,4 @@ game: !ruby/object:GameBuilder
   interface: !ruby/object:Interface {}
   validator: !ruby/object:Validator {}
   database: !ruby/object:Database {}
+active_player: *1

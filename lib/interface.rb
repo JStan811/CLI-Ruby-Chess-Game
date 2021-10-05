@@ -27,18 +27,20 @@ class Interface
     loop do
       puts 'Enter the number of your game file.'
         filenames = Dir.entries('save_files')
+        filenames.delete_if { |filename| !filename.include?('.yaml') }
         filenames.each_with_index do |filename, i|
-          puts "#{i}. #{filename.delete_suffix '.yaml'}" unless filename == '.' || filename == '..'
+          puts "#{i + 1}. #{filename.delete_suffix '.yaml'}"
         end
         # for each save file, print it with an incrementing number preceding it
         file_index = gets.chomp.to_i # unless entry is invalid
         puts ''
       begin
-        game = database.load_game(filenames[file_index])
+        game = database.load_game(filenames[file_index - 1])
       rescue Errno::EISDIR
         puts 'Invalid entry'
         puts ''
       else
+        puts "You have chosen to load #{filenames[file_index - 1]}"
         break
       end
     end

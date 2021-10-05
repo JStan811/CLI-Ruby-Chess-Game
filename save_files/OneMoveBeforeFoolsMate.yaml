@@ -12,7 +12,10 @@ game: !ruby/object:GameBuilder
         position:
         - 0
         - 0
-        piece: 
+        piece: !ruby/object:Rook
+          color: White
+          owner: *1
+          symbol: "♖"
       - !ruby/object:Cell
         position:
         - 0
@@ -73,7 +76,10 @@ game: !ruby/object:GameBuilder
         position:
         - 1
         - 0
-        piece: 
+        piece: !ruby/object:Pawn
+          color: White
+          owner: *1
+          symbol: "♙"
       - !ruby/object:Cell
         position:
         - 1
@@ -110,18 +116,12 @@ game: !ruby/object:GameBuilder
         position:
         - 1
         - 5
-        piece: !ruby/object:Pawn
-          color: White
-          owner: *1
-          symbol: "♙"
+        piece: 
       - !ruby/object:Cell
         position:
         - 1
         - 6
-        piece: !ruby/object:Pawn
-          color: White
-          owner: *1
-          symbol: "♙"
+        piece: 
       - !ruby/object:Cell
         position:
         - 1
@@ -134,10 +134,7 @@ game: !ruby/object:GameBuilder
         position:
         - 2
         - 0
-        piece: !ruby/object:Rook
-          color: White
-          owner: *1
-          symbol: "♖"
+        piece: 
       - !ruby/object:Cell
         position:
         - 2
@@ -162,7 +159,10 @@ game: !ruby/object:GameBuilder
         position:
         - 2
         - 5
-        piece: 
+        piece: !ruby/object:Pawn
+          color: White
+          owner: *1
+          symbol: "♙"
       - !ruby/object:Cell
         position:
         - 2
@@ -177,10 +177,7 @@ game: !ruby/object:GameBuilder
         position:
         - 3
         - 0
-        piece: !ruby/object:Pawn
-          color: White
-          owner: *1
-          symbol: "♙"
+        piece: 
       - !ruby/object:Cell
         position:
         - 3
@@ -210,7 +207,10 @@ game: !ruby/object:GameBuilder
         position:
         - 3
         - 6
-        piece: 
+        piece: !ruby/object:Pawn
+          color: White
+          owner: *1
+          symbol: "♙"
       - !ruby/object:Cell
         position:
         - 3
@@ -225,6 +225,21 @@ game: !ruby/object:GameBuilder
         position:
         - 4
         - 1
+        piece: 
+      - !ruby/object:Cell
+        position:
+        - 4
+        - 2
+        piece: 
+      - !ruby/object:Cell
+        position:
+        - 4
+        - 3
+        piece: 
+      - !ruby/object:Cell
+        position:
+        - 4
+        - 4
         piece: !ruby/object:Pawn
           color: Black
           owner: *2
@@ -232,21 +247,6 @@ game: !ruby/object:GameBuilder
       - !ruby/object:Cell
         position:
         - 4
-        - 2
-        piece: 
-      - !ruby/object:Cell
-        position:
-        - 4
-        - 3
-        piece: 
-      - !ruby/object:Cell
-        position:
-        - 4
-        - 4
-        piece: 
-      - !ruby/object:Cell
-        position:
-        - 4
         - 5
         piece: 
       - !ruby/object:Cell
@@ -263,10 +263,7 @@ game: !ruby/object:GameBuilder
         position:
         - 5
         - 0
-        piece: !ruby/object:Bishop
-          color: Black
-          owner: *2
-          symbol: "♝"
+        piece: 
       - !ruby/object:Cell
         position:
         - 5
@@ -314,7 +311,10 @@ game: !ruby/object:GameBuilder
         position:
         - 6
         - 1
-        piece: 
+        piece: !ruby/object:Pawn
+          color: Black
+          owner: *2
+          symbol: "♟"
       - !ruby/object:Cell
         position:
         - 6
@@ -335,10 +335,7 @@ game: !ruby/object:GameBuilder
         position:
         - 6
         - 4
-        piece: !ruby/object:Pawn
-          color: Black
-          owner: *2
-          symbol: "♟"
+        piece: 
       - !ruby/object:Cell
         position:
         - 6
@@ -383,7 +380,10 @@ game: !ruby/object:GameBuilder
         position:
         - 7
         - 2
-        piece: 
+        piece: !ruby/object:Bishop
+          color: Black
+          owner: *2
+          symbol: "♝"
       - !ruby/object:Cell
         position:
         - 7
@@ -427,3 +427,4 @@ game: !ruby/object:GameBuilder
   interface: !ruby/object:Interface {}
   validator: !ruby/object:Validator {}
   database: !ruby/object:Database {}
+active_player: *2
