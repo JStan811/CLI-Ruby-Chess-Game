@@ -6,7 +6,7 @@ require_relative 'game_builder'
 class Chess
   def initialize
     @game = GameBuilder.new
-    # play_chess
+    @active_player = @game.player1
   end
 
   def play_chess
@@ -14,9 +14,9 @@ class Chess
 
     loop do
       @game.interface.display_board(@game.board)
-      turn_loop(@game.player1)
+      turn_loop(@active_player)
       @game.interface.display_board(@game.board)
-      turn_loop(@game.player2)
+      turn_loop(@active_player)
     end
   end
 
