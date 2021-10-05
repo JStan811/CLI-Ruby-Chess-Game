@@ -2,6 +2,8 @@
 
 # This class is used to create King pieces and contains their movement rules
 class King < Piece
+  # rubocop: disable Metrics/AbcSize
+  # rubocop: disable Metrics/MethodLength
   def available_destinations(starting_cell, board_state)
     available_destinations = []
     available_destinations << down1_cell_if_valid(starting_cell, board_state)
@@ -12,8 +14,11 @@ class King < Piece
     available_destinations << up1_left1_cell_if_valid(starting_cell, board_state)
     available_destinations << left1_cell_if_valid(starting_cell, board_state)
     available_destinations << down1_left1_cell_if_valid(starting_cell, board_state)
+    available_destinations.delete nil
     available_destinations
   end
+  # rubocop: enable Metrics/AbcSize
+  # rubocop: enable Metrics/MethodLength
 
   private
 

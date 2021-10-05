@@ -19,6 +19,7 @@ class Pawn < Piece
     white_destinations << up1_left1_cell_if_valid(starting_cell, board_state)
     white_destinations << up1_right1_cell_if_valid(starting_cell, board_state)
     white_destinations << up2_cell_if_valid(starting_cell, board_state)
+    white_destinations.delete nil
     white_destinations
   end
 
@@ -52,6 +53,7 @@ class Pawn < Piece
     black_destinations << down1_left1_cell_if_valid(starting_cell, board_state)
     black_destinations << down1_right1_cell_if_valid(starting_cell, board_state)
     black_destinations << down2_cell_if_valid(starting_cell, board_state)
+    black_destinations.delete nil
     black_destinations
   end
 
