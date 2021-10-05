@@ -91,18 +91,38 @@ class Interface
   # rubocop: enable Metrics/AbcSize
   # rubocop: enable Metrics/MethodLength
 
-  # using to test board creation and changes. May end up transforming into the
-  # display board method
-  def pretty_print_board_text(board)
-    board.cells.each_with_index do |row, index|
-      print "row #{index + 1}: "
-      row.each do |cell|
-        if cell.piece.nil?
-          print 'empty '
+  def solicit_pawn_promotion_choice(player)
+    desired_promotion = ''
+    loop do
+      puts "#{player.name}, the pawn you moved is ready to promote. Enter the number next to your desired promotion:"
+      puts '1. Queen'
+      puts '2. Rook'
+      puts '3. Knight'
+      puts '4. Bishop'
+      user_entry = gets.chomp
+      puts ''
+      case user_entry
+      when '1'
+        desired_promotion = 'Queen'
+        puts 'Pawn promoted to queen.'
+      when '2'
+        desired_promotion = 'Rook'
+        puts 'Pawn promoted to rook.'
+      when '3'
+        desired_promotion = 'Knight'
+        puts 'Pawn promoted to knight.'
+      when '4'
+        desired_promotion = 'Bishop'
+        puts 'Pawn promoted to bishop.'
         else
-          print "#{cell.piece.color} #{cell.piece.class} "
+        puts 'Invalid entry.'
+        puts ''
+        next
         end
+      break
       end
+    desired_promotion
+  end
       puts ''
     end
   end

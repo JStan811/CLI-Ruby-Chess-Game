@@ -33,7 +33,10 @@ class Chess
     ending_cell = convert_player_action_into_ending_cell(player_action)
     # update board
     @game.board.update_board(starting_cell, ending_cell)
-    # check for checkmate
+    if @game.validator.pawn_promotion?(player.color, ending_cell)
+        desired_promotion = @game.interface.solicit_pawn_promotion_choice(player)
+        @game.board.promote_pawn(desired_promotion, ending_cell, player)
+    end
     if @game.validator.opp_check_mate?(player, @game.board.cells)
       @game.interface.display_board(@game.board)
       puts "Checkmate. #{player.name} wins."

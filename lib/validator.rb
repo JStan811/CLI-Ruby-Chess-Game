@@ -101,6 +101,25 @@ class Validator
     result
   end
 
+  def pawn_promotion?(player_color, ending_cell)
+    pawn_promotion = false
+    case player_color
+    when 'White'
+      pawn_promotion = true if ending_cell.piece.instance_of?(Pawn) && last_row_positions.include?(ending_cell.position)
+    when 'Black'
+      pawn_promotion = true if ending_cell.piece.instance_of?(Pawn) && first_row_positions.include?(ending_cell.position)
+    end
+    pawn_promotion
+  end
+
+  def last_row_positions
+    [[7, 0], [7, 1], [7, 2], [7, 3], [7, 4], [7, 5], [7, 6], [7, 7]]
+  end
+
+  def first_row_positions
+    [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7]]
+  end
+
   # rubocop: disable Metrics
   def opp_check_mate?(player, board_state)
     return false unless opponent_check?(player, board_state)

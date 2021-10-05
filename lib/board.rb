@@ -21,6 +21,12 @@ class Board
     ending_cell.place_piece(piece_to_move)
   end
 
+  def promote_pawn(desired_promotion, ending_cell, player)
+    piece_to_replace_pawn = Object.const_get(desired_promotion).new(player.color, player)
+    ending_cell.remove_piece
+    ending_cell.place_piece(piece_to_replace_pawn)
+  end
+
   private
 
   def fill_board_with_empty_cells
