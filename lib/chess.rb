@@ -21,7 +21,7 @@ class Chess
   end
 
   def turn_loop(player)
-    if @game.validator.self_check?(player, @game.board.cells)
+    if @game.validator.king_in_check?(player, @game.board.cells)
       @game.interface.player_in_check_alert(player)
     end
     player_action = player_action_sequence(player)
@@ -31,18 +31,19 @@ class Chess
     if @game.validator.pawn_promotion?(player.color, ending_cell)
         desired_promotion = @game.interface.solicit_pawn_promotion_choice(player)
         @game.board.promote_pawn(desired_promotion, ending_cell, player)
+        @game.interface.pawn_promotion_confirmation(desired_promotion)
     end
-    if @game.validator.opp_check_mate?(player, @game.board.cells)
+    if @game.validator.opponent_check_mate?(player, @game.board.cells)
       @game.interface.display_board(@game.board)
       @game.interface.checkmate_message(player)
       exit
     end
-    if @game.validator.opp_stale_mate?(player, @game.board.cells)
+    if @game.validator.opponent_stale_mate?(player, @game.board.cells)
       @game.interface.display_board(@game.board)
       @game.interface.stalemate_message
       exit
     end
-    if @game.validator.self_check?(player, @game.board.cells)
+    if @game.validator.king_in_check?(player, @game.board.cells)
       @game.board.update_board(ending_cell, starting_cell)
       turn_loop(player)
     end
@@ -57,7 +58,7 @@ class Chess
     player_action = ''
     loop do
       player_action = @game.interface.solicit_player_action(player, self, @game.database)
-      puts ''
+      puts
       unless @game.validator.valid_notation?(player_action)
         @game.interface.invalid_notation_alert
         next
@@ -76,7 +77,7 @@ class Chess
         @game.interface.illegal_move_alert
         next
       end
-      if starting_cell.piece.instance_of?(King) && @game.validator.own_king_into_check?(ending_cell, player, @game.board.cells)
+      if starting_cell.piece.instance_of?(King) && @game.validator.moving_own_king_into_check?(ending_cell, player, @game.board.cells)
         @game.interface.own_king_in_check_alert
         next
       end

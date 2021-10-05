@@ -9,6 +9,14 @@ class Cell
 
   attr_reader :position, :piece
 
+  def row
+    @position[0]
+  end
+
+  def column
+    @position[1]
+  end
+
   def place_piece(piece)
     @piece = piece
   end

@@ -5,14 +5,9 @@
 class Interface
   def display_instructions
     puts 'Player 1 controls the white pieces starting on rows 1 and 2. Player 2 controls the black pieces starting on rows 7 and 8.'
-    puts ''
+    puts
     puts "Game move notation is 'starting cell''ending cell'. For example, to move a piece from a2 to a4, enter 'a2a4'."
-    puts ''
-  end
-
-  def solicit_save_quit_response
-    display_save_quit_option
-    gets.chomp
+    puts
   end
 
   def load_game_display(database)
@@ -20,115 +15,13 @@ class Interface
     response = gets.chomp
     return unless response == 'load'
 
-    puts ''
+    puts
     load_game_menu(database)
   end
 
-  def load_game_menu(database)
-    game = ''
-    loop do
-      puts 'Enter the number next to your game file.'
-        filenames = Dir.entries('save_files')
-        filenames.delete_if { |filename| !filename.include?('.yaml') }
-        filenames.each_with_index do |filename, i|
-          puts "#{i + 1}. #{filename.delete_suffix '.yaml'}"
-        end
-        file_index = gets.chomp.to_i
-        puts ''
-        if file_index == 0
-          puts 'Invalid entry.'
-          puts ''
-          next
-        end
-      begin
-        game = database.load_game(filenames[file_index - 1])
-      rescue Errno::EISDIR
-        puts 'Invalid entry.'
-        puts ''
-      else
-        puts "Loading game #{filenames[file_index - 1].delete_suffix '.yaml'}."
-        puts ''
-        break
-      end
-    end
-    game
-  end
-
-   # rubocop: disable Metrics/AbcSize
-  # rubocop: disable Metrics/MethodLength
-  def save_quit_menu(game, database)
-    puts ''
-    puts 'Enter the number next to your choice:'
-    puts '1. Save game and continue playing.'
-    puts '2. Save game and quit.'
-    puts '3. Quit without saving.'
-    puts '4. Go back.'
-    response = gets.chomp
-    case response
-    when '1'
-      loop do
-        puts ''
-        puts 'Enter a name for your game: '
-        filename = gets.chomp # unless user input invalid
-        puts ''
-        existing_filenames = Dir.entries('save_files')
-        existing_filenames.delete_if { |name| !name.include?('.yaml') }
-        if existing_filenames.include?("#{filename}.yaml")
-          puts 'Name already exists.'
-          next
-        end
-        begin
-          database.save_game(game, filename)
-        rescue Errno::ENOENT
-          puts 'Invalid entry.'
-        else
-          puts 'Game saved.'
-          puts ''
-          break
-        end
-      end
-    when '2'
-      loop do
-        puts ''
-        puts 'Enter a name for your game: '
-        filename = gets.chomp # unless user input invalid
-        puts ''
-        existing_filenames = Dir.entries('save_files')
-        existing_filenames.delete_if { |name| !name.include?('.yaml') }
-        if existing_filenames.include?("#{filename}.yaml")
-          puts 'Name already exists.'
-          next
-        end
-        begin
-          database.save_game(game, filename)
-        rescue Errno::ENOENT
-          puts 'Invalid entry.'
-        else
-          puts 'Game saved.'
-          break
-        end
-      end
-      puts ''
-      puts 'Game exiting.'
-      exit
-    when '3'
-      puts ''
-      puts 'Game exiting.'
-      exit
-    when '4'
-      puts ''
-      return
-    else
-      puts 'Invalid entry.'
-      save_quit_menu(game, database)
-    end
-  end
-  # rubocop: enable Metrics/AbcSize
-  # rubocop: enable Metrics/MethodLength
-
   def player_in_check_alert(player)
     puts "#{player.name}, your king is in check. Your move must result in a position where your king is no longer in check."
-    puts ''
+    puts
   end
 
   def solicit_player_action(player, game, database)
@@ -143,37 +36,28 @@ class Interface
     player_action
   end
 
+  # rubocop: disable Metrics/MethodLength
   def solicit_pawn_promotion_choice(player)
     desired_promotion = ''
     loop do
-      puts "#{player.name}, the pawn you moved is ready to promote. Enter the number next to your desired promotion:"
-      puts '1. Queen'
-      puts '2. Rook'
-      puts '3. Knight'
-      puts '4. Bishop'
-      user_entry = gets.chomp
-      puts ''
-      case user_entry
-      when '1'
-        desired_promotion = 'Queen'
-        puts 'Pawn promoted to queen.'
-      when '2'
-        desired_promotion = 'Rook'
-        puts 'Pawn promoted to rook.'
-      when '3'
-        desired_promotion = 'Knight'
-        puts 'Pawn promoted to knight.'
-      when '4'
-        desired_promotion = 'Bishop'
-        puts 'Pawn promoted to bishop.'
+      number_of_desired_promotion = solicit_number_of_desired_promotion(player)
+      case number_of_desired_promotion
+      when '1' then desired_promotion = 'Queen'
+      when '2' then desired_promotion = 'Rook'
+      when '3' then desired_promotion = 'Knight'
+      when '4' then desired_promotion = 'Bishop'
       else
-        puts 'Invalid entry.'
-        puts ''
+        invalid_entry_message
         next
       end
       break
     end
     desired_promotion
+  end
+  # rubocop: enable Metrics/MethodLength
+
+  def pawn_promotion_confirmation(desired_promotion)
+    puts "Pawn promoted to #{desired_promotion}."
   end
 
   def checkmate_message(player)
@@ -186,27 +70,27 @@ class Interface
 
   def invalid_notation_alert
     puts "Invalid notation. Game move notation is 'starting cell''ending cell'. For example, to move a piece from a2 to a4, enter 'a2a4'."
-    puts ''
+    puts
   end
 
   def same_start_and_end_cells_alert
     puts 'Invalid move. The starting and ending cells are the same.'
-    puts ''
+    puts
   end
 
   def starting_cell_not_own_piece_alert
     puts 'Invalid move. Starting cell does not contain your own piece.'
-    puts ''
+    puts
   end
 
   def illegal_move_alert
     puts 'Illegal move for this piece.'
-    puts ''
+    puts
   end
 
   def own_king_in_check_alert
     puts 'Invalid move. It puts your own King into Check.'
-    puts ''
+    puts
   end
 
   def display_board(board)
@@ -241,4 +125,140 @@ class Interface
       "
     puts board_display
   end
+
+  private
+
+  # rubocop: disable Metrics/MethodLength
+  def load_game_menu(database)
+    game = ''
+    loop do
+      file_number = solicit_file_number_to_load(database.existing_filenames)
+      if file_number == 0
+        invalid_entry_message
+        next
+      end
+      begin
+        game = database.load_game(database.existing_filenames[file_number - 1])
+      rescue Errno::EISDIR
+        invalid_entry_message
+      else
+        puts "Loading game #{database.existing_filenames[file_number - 1].delete_suffix '.yaml'}."
+        puts
+        break
+      end
+    end
+    game
+  end
+  # rubocop: enable Metrics/MethodLength
+
+  def solicit_file_number_to_load(filenames)
+    puts 'Enter the number next to your game file.'
+    filenames.each_with_index do |filename, i|
+      puts "#{i + 1}. #{filename.delete_suffix '.yaml'}"
+    end
+    file_number = gets.chomp.to_i
+    puts
+    file_number
+  end
+
+  def invalid_entry_message
+    puts 'Invalid entry.'
+    puts
+  end
+
+  def save_quit_menu(game, database)
+    menu_number_choice = solicit_save_quit_menu_number_choice
+    case menu_number_choice
+    when '1' then save_game_and_continue_playing(game, database)
+    when '2' then save_game_and_quit(game, database)
+    when '3' then game_exit
+    when '4' then return
+    else
+      puts 'Invalid entry.'
+      save_quit_menu(game, database)
+    end
+  end
+
+  def solicit_save_quit_menu_number_choice
+    puts
+    puts 'Enter the number next to your choice:'
+    puts '1. Save game and continue playing.'
+    puts '2. Save game and quit.'
+    puts '3. Quit without saving.'
+    puts '4. Go back.'
+    number_choice = gets.chomp
+    puts
+    number_choice
+  end
+
+  # rubocop: disable Metrics/MethodLength
+  def save_game_and_continue_playing(game, database)
+    loop do
+      filename = solicit_save_file_name
+      if database.existing_filenames.include?("#{filename}.yaml")
+        puts 'Name already exists.'
+        puts
+        next
+      end
+      begin
+        database.save_game(game, filename)
+      rescue Errno::ENOENT
+        invalid_entry_message
+      else
+        game_saved_message
+        break
+      end
+    end
+  end
+  # rubocop: enable Metrics/MethodLength
+
+  # rubocop: disable Metrics/MethodLength
+  def save_game_and_quit(game, database)
+    loop do
+      filename = solicit_save_file_name
+      if database.existing_filenames.include?("#{filename}.yaml")
+        puts 'Name already exists.'
+        next
+      end
+      begin
+        database.save_game(game, filename)
+      rescue Errno::ENOENT
+        invalid_entry_message
+      else
+        game_saved_message
+        break
+      end
+    end
+    game_exit
+  end
+  # rubocop: enable Metrics/MethodLength
+
+  def game_saved_message
+    puts 'Game saved.'
+    puts
+  end
+
+  def solicit_save_file_name
+    puts 'Enter a name for your game: '
+    filename = gets.chomp
+    puts
+    filename
+  end
+
+  def game_exit
+    puts 'Game exiting.'
+    exit
+  end
+
+  def solicit_number_of_desired_promotion(player)
+    puts "#{player.name}, the pawn you moved is ready to promote. Enter the number next to your desired promotion:"
+    puts '1. Queen'
+    puts '2. Rook'
+    puts '3. Knight'
+    puts '4. Bishop'
+    number_of_desired_promotion = gets.chomp
+    puts
+    number_of_desired_promotion
+  end
 end
+# rubocop: enable Metrics/ClassLength

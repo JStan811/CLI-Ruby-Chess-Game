@@ -1,4 +1,7 @@
 3. at the end read through everything and refactor, then use the rubocop command line thing
+  - Refactoring
+    - chess.rb
+    - tests
 
 4. Update Readme and Replit
 
