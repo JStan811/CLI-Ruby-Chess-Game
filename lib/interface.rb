@@ -62,27 +62,67 @@ class Interface
   # rubocop: disable Metrics/AbcSize
   # rubocop: disable Metrics/MethodLength
   def save_quit_menu(game, database)
-    puts 'Enter the number of your choice:'
+    puts ''
+    puts 'Enter the number next to your choice:'
     puts '1. Save game and continue playing.'
     puts '2. Save game and quit.'
     puts '3. Quit without saving.'
+    puts '4. Go back.'
     response = gets.chomp
     case response
     when '1'
-      puts 'Enter a name for your save file: '
+      loop do
+        puts ''
+        puts 'Enter a name for your game: '
       filename = gets.chomp # unless user input invalid
+        puts ''
+        existing_filenames = Dir.entries('save_files')
+        existing_filenames.delete_if { |name| !name.include?('.yaml') }
+        if existing_filenames.include?("#{filename}.yaml")
+          puts 'Name already exists.'
+          next
+        end
+        begin
       database.save_game(game, filename)
+        rescue Errno::ENOENT
+          puts 'Invalid entry.'
+        else
       puts 'Game saved.'
+          puts ''
+          break
+        end
+      end
     when '2'
-      puts 'Enter a name for your save file: '
+      loop do
+        puts ''
+        puts 'Enter a name for your game: '
       filename = gets.chomp # unless user input invalid
+        puts ''
+        existing_filenames = Dir.entries('save_files')
+        existing_filenames.delete_if { |name| !name.include?('.yaml') }
+        if existing_filenames.include?("#{filename}.yaml")
+          puts 'Name already exists.'
+          next
+        end
+        begin
       database.save_game(game, filename)
+        rescue Errno::ENOENT
+          puts 'Invalid entry.'
+        else
       puts 'Game saved.'
+          break
+        end
+      end
+      puts ''
       puts 'Game exiting.'
       exit
     when '3'
+      puts ''
       puts 'Game exiting.'
       exit
+    when '4'
+      puts ''
+      return
     else
       puts 'Invalid entry.'
       save_quit_menu(game, database)
