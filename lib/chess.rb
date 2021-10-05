@@ -42,7 +42,11 @@ class Chess
       puts "Checkmate. #{player.name} wins."
       exit
     end
-    # check for self_check again
+    if @game.validator.opp_stale_mate?(player, @game.board.cells)
+      @game.interface.display_board(@game.board)
+      @game.interface.stalemate_message
+      exit
+    end
     if @game.validator.self_check?(player, @game.board.cells)
       @game.board.update_board(ending_cell, starting_cell)
       turn_loop(player)

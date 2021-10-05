@@ -182,6 +182,70 @@ class Validator
   end
   # rubocop: enable Metrics
 
+  # rubocop: disable Metrics
+  # nearly the same logic as check mate, the only difference being the first
+  # line. Its checkmate if there is a check, but stalemate if there isn't.
+  def opp_stale_mate?(player, board_state)
+    return false if opponent_check?(player, board_state)
+
+    result = true
+    # find player's opp's king cell
+    opp_king_cell = find_opp_king_cell(player, board_state)
+
+    # find all opp's king's available destinations and see if it is in check
+    # all of them
+    opp_king_available_destinations = opp_king_cell.piece.available_destinations(opp_king_cell, board_state)
+
+    # does nothing (leaving result as true) if King has 0 available destinations
+    opp_king_available_destinations.each do |dest|
+      result = false unless opp_check_from_cell?(dest, player, board_state)
+    end
+    # break out of function if false at this point b/c it means King can move
+    # to a safe position
+    return result if result == false
+
+    # need to add: check to make sure any opponent's piece can't block or
+    # capture your piece that would capture the king.
+
+    # collect all cells with opponent's pieces except the king
+    cells_with_opp_pieces = []
+    board_state.each do |row|
+      row.each do |cell|
+        if !cell.piece.nil? && cell.piece.owner != player && !cell.piece.instance_of?(King)
+          cells_with_opp_pieces << cell
+        end
+      end
+    end
+
+    # for each of opp's pieces, simulate all available moves one at a time,
+    # then see if check is still active. If so, return false, breaking the
+    # loops and the method. This should cover both blocks of the attacker and
+    # captures of the attacker
+    cells_with_opp_pieces.each do |cell|
+      cell.piece.available_destinations(cell, board_state).each do |dest|
+        dest_piece = nil
+        dest_piece = dest.piece unless dest.piece.nil?
+        dest.place_piece(cell.piece)
+        cell.remove_piece
+        unless opponent_check?(player, board_state)
+          result = false
+          # return board to how it was before simulation
+          cell.place_piece(dest.piece)
+          dest.remove_piece
+          dest.place_piece(dest_piece) unless dest_piece.nil?
+          return result
+        end
+        # return board to how it was before simulation
+        cell.place_piece(dest.piece)
+        dest.remove_piece
+        dest.place_piece(dest_piece) unless dest_piece.nil?
+      end
+    end
+
+    result
+  end
+  # rubocop: enable Metrics
+
   def find_self_king_cell(player, board_state)
     self_king_cell = nil
     board_state.each do |row|
