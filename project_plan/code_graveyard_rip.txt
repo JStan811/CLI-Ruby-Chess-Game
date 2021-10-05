@@ -25,7 +25,7 @@ Used these for testing before I had a board display:
           print "#{cell.piece.color} #{cell.piece.class} "
         end
       end
-      puts ''
+      puts
     end
   end
 
@@ -39,7 +39,7 @@ Used these for testing before I had a board display:
           print "#{cell.piece.symbol} "
         end
       end
-      puts ''
+      puts
     end
   end
 
@@ -53,7 +53,7 @@ These were at the bottom of my Chess class but weren't used anywhere. Not sure w
     @game.board.convert_notation_to_piece_color(notated_cell)
   end
 
-Used these in board.rb for testing if the stalemate feature works (these can probably be adapted to tests):
+Used these in game_builder.rb for testing if the stalemate feature works (these can probably be adapted to tests):
 
   def build_pre_stalemate_board_v1
     place_piece(0, 7, King.new('Black', player2))
