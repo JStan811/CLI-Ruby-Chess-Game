@@ -24,6 +24,7 @@ class Chess
     # check for check
     if @game.validator.self_check?(player, @game.board.cells)
       puts "#{player.name}, your king is in check. Your move must result in a position where the king is no longer in check."
+      puts ''
     end
     # Ask player for move/action
     player_action = player_action_sequence(player)
@@ -38,7 +39,17 @@ class Chess
       puts "Checkmate. #{player.name} wins."
       exit
     end
-    # proceeed to next iteration of loop
+    # check for self_check again
+    if @game.validator.self_check?(player, @game.board.cells)
+      @game.board.update_board(ending_cell, starting_cell)
+      turn_loop(player)
+    end
+    # switch to non-active player for next turn loop. Did this so when games are loaded it keeps the active player
+    if @active_player == @game.player1
+      @active_player = @game.player2
+    else
+      @active_player = @game.player1
+    end
   end
 
   # rubocop: disable Metrics
@@ -47,9 +58,11 @@ class Chess
     loop do
       # ask player for action
       player_action = @game.interface.solicit_player_action(player, self, @game.database)
+      puts ''
       # validate if entered text is valid (follows Chess notation)
       unless @game.validator.valid_notation?(player_action)
         puts "Invalid notation. Game move notation is 'starting cell''ending cell'. For example, to move a piece from a2 to a4, enter 'a2a4'."
+        puts ''
         next
       end
       # pull out starting and ending cells from action
@@ -58,22 +71,26 @@ class Chess
       # validate that starting position and ending position aren't the same
       unless @game.validator.different_start_and_end_cells?(starting_cell, ending_cell)
         puts 'The starting and ending cells are the same.'
+        puts ''
         next
       end
       # validate if starting cell contains own piece
       unless @game.validator.starting_cell_contains_own_piece?(starting_cell, player)
         puts 'Starting cell does not contain your own piece.'
+        puts ''
         next
       end
       # validate if action is a valid destination for given piece
       unless @game.validator.legal_move?(starting_cell, ending_cell, @game.board.cells)
         puts 'Illegal move for this piece.'
+        puts ''
         next
       end
       # if moving King, validate if move leaves it in Check
       if starting_cell.piece.instance_of?(King)
         if @game.validator.own_king_into_check?(ending_cell, player, @game.board.cells)
           puts 'Move puts your own King into Check.'
+          puts ''
           next
         end
       end
