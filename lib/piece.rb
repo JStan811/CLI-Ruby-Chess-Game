@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# represents a chess piece
+# This is a parent class for all the piece type classes (Rook, Pawn, etc.). No
+# object is ever instantiated directly from Piece
 class Piece
   def initialize(color, owner)
     @color = color
@@ -20,8 +21,6 @@ class Piece
     raise NotImplementedError
   end
 
-  # this is currently only used by king and knight, maybe it would be better
-  # placed in both of those rather than here?
   def valid_position?(row_index, column_index, board_state)
     if row_index.negative? || row_index > 7 || column_index.negative? || column_index > 7
       false

@@ -1,24 +1,69 @@
 # frozen_string_literal: true
 
-require_relative 'piece'
-
+# This class is used to create Knight pieces and contains their movement rules
 class Knight < Piece
   def available_destinations(starting_cell, board_state)
     available_destinations = []
-    r = starting_cell.position[0]
-    c = starting_cell.position[1]
-    available_destinations << board_state[r - 2][c + 1] if valid_position?(r - 2, c + 1, board_state)
-    available_destinations << board_state[r - 1][c + 2] if valid_position?(r - 1, c + 2, board_state)
-    available_destinations << board_state[r + 1][c + 2] if valid_position?(r + 1, c + 2, board_state)
-    available_destinations << board_state[r + 2][c + 1] if valid_position?(r + 2, c + 1, board_state)
-    available_destinations << board_state[r + 2][c - 1] if valid_position?(r + 2, c - 1, board_state)
-    available_destinations << board_state[r + 1][c - 2] if valid_position?(r + 1, c - 2, board_state)
-    available_destinations << board_state[r - 1][c - 2] if valid_position?(r - 1, c - 2, board_state)
-    available_destinations << board_state[r - 2][c - 1] if valid_position?(r - 2, c - 1, board_state)
+    available_destinations << down2_right1_cell_if_valid(starting_cell, board_state)
+    available_destinations << down1_right2_cell_if_valid(starting_cell, board_state)
+    available_destinations << up1_right2_cell_if_valid(starting_cell, board_state)
+    available_destinations << up2_right1_cell_if_valid(starting_cell, board_state)
+    available_destinations << up2_left1_cell_if_valid(starting_cell, board_state)
+    available_destinations << up1_left2_cell_if_valid(starting_cell, board_state)
+    available_destinations << down1_left2_cell_if_valid(starting_cell, board_state)
+    available_destinations << down2_left1_cell_if_valid(starting_cell, board_state)
     available_destinations
   end
 
   private
+
+  def down2_right1_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row - 2][column + 1] if valid_position?(row - 2, column + 1, board_state)
+  end
+
+  def down1_right2_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row - 1][column + 2] if valid_position?(row - 1, column + 2, board_state)
+  end
+
+  def up1_right2_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row + 1][column + 2] if valid_position?(row + 1, column + 2, board_state)
+  end
+
+  def up2_right1_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row + 2][column + 1] if valid_position?(row + 2, column + 1, board_state)
+  end
+
+  def up2_left1_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row + 2][column - 1] if valid_position?(row + 2, column - 1, board_state)
+  end
+
+  def up1_left2_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row + 1][column - 2] if valid_position?(row + 1, column - 2, board_state)
+  end
+
+  def down1_left2_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row - 1][column - 2] if valid_position?(row - 1, column - 2, board_state)
+  end
+
+  def down2_left1_cell_if_valid(starting_cell, board_state)
+    row = starting_cell.row
+    column = starting_cell.column
+    board_state[row - 2][column - 1] if valid_position?(row - 2, column - 1, board_state)
+  end
 
   def determine_symbol(color)
     case color
