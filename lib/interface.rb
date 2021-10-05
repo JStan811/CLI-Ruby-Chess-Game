@@ -4,6 +4,7 @@
 # to house methods for interfacing with user
 class Interface
   def display_instructions
+    puts 'Player 1 controls the white pieces starting on rows 1 and 2. Player 2 controls the black pieces starting on rows 7 and 8.'
     puts ''
     puts "Game move notation is 'starting cell''ending cell'. For example, to move a piece from a2 to a4, enter 'a2a4'."
     puts ''
@@ -15,51 +16,45 @@ class Interface
   end
 
   def load_game_display(database)
-    puts "Would you like to load a previously saved game? Enter 'y' for yes. Any other response will take you through to a new game."
+    puts "Enter 'load' to load from a saved game file. Any other response will take you through to a new game."
     response = gets.chomp
-    return unless response == 'y'
+    return unless response == 'load'
 
+    puts ''
     load_game_menu(database)
   end
 
   def load_game_menu(database)
     game = ''
     loop do
-      puts 'Enter the number of your game file.'
+      puts 'Enter the number next to your game file.'
         filenames = Dir.entries('save_files')
         filenames.delete_if { |filename| !filename.include?('.yaml') }
         filenames.each_with_index do |filename, i|
           puts "#{i + 1}. #{filename.delete_suffix '.yaml'}"
         end
-        # for each save file, print it with an incrementing number preceding it
-        file_index = gets.chomp.to_i # unless entry is invalid
+        file_index = gets.chomp.to_i
         puts ''
+        if file_index == 0
+          puts 'Invalid entry.'
+          puts ''
+          next
+        end
       begin
         game = database.load_game(filenames[file_index - 1])
       rescue Errno::EISDIR
-        puts 'Invalid entry'
+        puts 'Invalid entry.'
         puts ''
       else
-        puts "You have chosen to load #{filenames[file_index - 1]}"
+        puts "Loading game #{filenames[file_index - 1].delete_suffix '.yaml'}."
+        puts ''
         break
       end
     end
     game
   end
 
-  def solicit_player_action(player, game, database)
-    player_action = ''
-    loop do
-      puts "#{player.name}, enter your game move or type 's' to be taken to save/quit menu."
-      player_action = gets.chomp
-      break unless player_action == 's'
-
-      save_quit_menu(game, database)
-    end
-    player_action
-  end
-
-  # rubocop: disable Metrics/AbcSize
+   # rubocop: disable Metrics/AbcSize
   # rubocop: disable Metrics/MethodLength
   def save_quit_menu(game, database)
     puts ''
@@ -74,7 +69,7 @@ class Interface
       loop do
         puts ''
         puts 'Enter a name for your game: '
-      filename = gets.chomp # unless user input invalid
+        filename = gets.chomp # unless user input invalid
         puts ''
         existing_filenames = Dir.entries('save_files')
         existing_filenames.delete_if { |name| !name.include?('.yaml') }
@@ -83,11 +78,11 @@ class Interface
           next
         end
         begin
-      database.save_game(game, filename)
+          database.save_game(game, filename)
         rescue Errno::ENOENT
           puts 'Invalid entry.'
         else
-      puts 'Game saved.'
+          puts 'Game saved.'
           puts ''
           break
         end
@@ -96,7 +91,7 @@ class Interface
       loop do
         puts ''
         puts 'Enter a name for your game: '
-      filename = gets.chomp # unless user input invalid
+        filename = gets.chomp # unless user input invalid
         puts ''
         existing_filenames = Dir.entries('save_files')
         existing_filenames.delete_if { |name| !name.include?('.yaml') }
@@ -105,11 +100,11 @@ class Interface
           next
         end
         begin
-      database.save_game(game, filename)
+          database.save_game(game, filename)
         rescue Errno::ENOENT
           puts 'Invalid entry.'
         else
-      puts 'Game saved.'
+          puts 'Game saved.'
           break
         end
       end
@@ -130,6 +125,23 @@ class Interface
   end
   # rubocop: enable Metrics/AbcSize
   # rubocop: enable Metrics/MethodLength
+
+  def player_in_check_alert(player)
+    puts "#{player.name}, your king is in check. Your move must result in a position where your king is no longer in check."
+    puts ''
+  end
+
+  def solicit_player_action(player, game, database)
+    player_action = ''
+    loop do
+      puts "#{player.name}, enter your game move or type 's' to be taken to save/quit menu."
+      player_action = gets.chomp
+      break unless player_action == 's'
+
+      save_quit_menu(game, database)
+    end
+    player_action
+  end
 
   def solicit_pawn_promotion_choice(player)
     desired_promotion = ''
@@ -154,31 +166,47 @@ class Interface
       when '4'
         desired_promotion = 'Bishop'
         puts 'Pawn promoted to bishop.'
-        else
+      else
         puts 'Invalid entry.'
         puts ''
         next
-        end
-      break
       end
+      break
+    end
     desired_promotion
   end
-      puts ''
-    end
+
+  def checkmate_message(player)
+    puts "Checkmate. #{player.name} wins."
   end
 
-  def pretty_print_board_symbols
-    @board.cells.each_with_index do |row, index|
-      print "row #{index + 1}: "
-      row.each do |cell|
-        if cell.piece.nil?
-          print 'empty '
-        else
-          print "#{cell.piece.symbol} "
-        end
-      end
-      puts ''
-    end
+  def stalemate_message
+    puts 'Stalemate. Game ends in a draw.'
+  end
+
+  def invalid_notation_alert
+    puts "Invalid notation. Game move notation is 'starting cell''ending cell'. For example, to move a piece from a2 to a4, enter 'a2a4'."
+    puts ''
+  end
+
+  def same_start_and_end_cells_alert
+    puts 'Invalid move. The starting and ending cells are the same.'
+    puts ''
+  end
+
+  def starting_cell_not_own_piece_alert
+    puts 'Invalid move. Starting cell does not contain your own piece.'
+    puts ''
+  end
+
+  def illegal_move_alert
+    puts 'Illegal move for this piece.'
+    puts ''
+  end
+
+  def own_king_in_check_alert
+    puts 'Invalid move. It puts your own King into Check.'
+    puts ''
   end
 
   def display_board(board)
@@ -212,16 +240,5 @@ class Interface
            a       b       c       d       e       f       g       h
       "
     puts board_display
-  end
-
-  private
-
-  def display_load_game_option
-    puts 'Would you like load a previous game? (y/n)'
-    puts ''
-  end
-
-  def display_save_quit_option
-    puts "Would you like to save and/or quit the game? (type 's' for save, 'q' for quit, 'sq' for both)"
   end
 end

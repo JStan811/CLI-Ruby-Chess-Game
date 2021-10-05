@@ -16,6 +16,7 @@ require_relative 'game_builder'
 require_relative 'database'
 
 puts 'Welcome to Chess.'
+puts ''
 
 database = Database.new
 interface = Interface.new
