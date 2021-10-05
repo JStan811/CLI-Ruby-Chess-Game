@@ -134,7 +134,7 @@ class Interface
   def solicit_player_action(player, game, database)
     player_action = ''
     loop do
-      puts "#{player.name}, enter your game move or type 's' to be taken to save/quit menu."
+      puts "#{player.name}, enter your game move or type 's' to be taken to the save/quit menu."
       player_action = gets.chomp
       break unless player_action == 's'
 
