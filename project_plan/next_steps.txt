@@ -3,17 +3,17 @@
     - Think about or look up common check and checkmate positions and create boards in those positions (or one move prior to them) to test
   - turn all displayed messages in Chess into Interface methods
   - Improve UI - instructions, all display messages, etc.
+    - Move initial notation instructions under board display
+    - 2 new lines after Welcome to chess before notation instructions when not loading a game?
   - enforce save file name (when saving and loading) somehow (to stop user from entering nothing or a space, or already exists, etc.)
+    - for some reason the load selection accepts single characters and chooses the last option?
   - add in support for Castling, En passant, and Promotion
+  - Add stalemate coverage to my game <- see illustrated chess rules site
   - tell players which color and side they are
-  - for some reason the load selection accepts single characters and chooses the last option?
 
-2. At the end, re-read the illustrated chess rules site to see if I missed anything
-  - Notes
-    - Add stalemate coverage to my game
-    - Add Castling, Promotion, En Passant
+2. re-read the TOP instructions
 
-3. at the end use the rubocop command line thing, also read through everything and refactor
+3. at the end read through everything and refactor, then use the rubocop command line thing
 
 4. Update Readme and Replit
 
