@@ -1,23 +1,11 @@
-1. W/e order for these:
-  - Write tests
-    - Think about or look up common check and checkmate positions and create boards in those positions (or one move prior to them) to test
-  - turn all displayed messages in Chess into Interface methods
-  - Improve UI - instructions, all display messages, etc.
-    - Move initial notation instructions under board display
-    - 2 new lines after Welcome to chess before notation instructions when not loading a game?
-  - enforce save file name (when saving and loading) somehow (to stop user from entering nothing or a space, or already exists, etc.)
-    - for some reason the load selection accepts single characters and chooses the last option?
-  - add in support for Castling, En passant, and Promotion
-  - Add stalemate coverage to my game <- see illustrated chess rules site
-  - tell players which color and side they are
-
-2. re-read the TOP instructions
-
 3. at the end read through everything and refactor, then use the rubocop command line thing
 
 4. Update Readme and Replit
 
 Extras
+   - Write tests
+    - Think about or look up common check and checkmate positions and create boards in those positions (or one move prior to them) to test
+  - add in support for Castling, En passant
   - Decide player color randomly
   - Add new game? feature when game ends
   - Code for standard chess notation: see branch standard_notation
@@ -25,6 +13,8 @@ Extras
   - Potential improvement (but big change): code board as a grid object, one where each cell has pointers to all of its neighbors
   - Look at another project to see where my require_relatives should be? (in the driver script/test scripts or within each class?)
   - Add display messages for different events: "Pawn captures pawn.", "Pawn promoted to Queen.", "Player 2 King in check", etc.
-  - Add support for game draws (see Wiki for types).
+  - Add support for game draws other than stalemate (see Wiki for types).
   - flip the board when active player switches
   - can I make symbols bigger?
+  - when saving, allow player to overwrite earlier game file. Also could allow player to delete a file
+  - from Odin: "(Optional extension) Build a very simple AI computer player (perhaps who does a random legal move)"
