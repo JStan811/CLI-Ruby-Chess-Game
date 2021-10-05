@@ -2,7 +2,7 @@
 
 require_relative 'cell'
 
-# represents the chess board
+# represents the Chess board
 class Board
   def initialize
     # the board is represented by an array of 8 subarrays, each
@@ -34,9 +34,6 @@ class Board
   end
 
   def fill_row_with_8_empty_cells(row, row_index)
-    for i in 0..7 do
-      # instantiate a new Cell object and pass it its position as an argument
-      row << Cell.new([row_index, i])
-    end
+    (0..7).each { |column_index| row << Cell.new([row_index, column_index]) }
   end
 end
