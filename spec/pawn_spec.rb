@@ -99,10 +99,6 @@ describe Pawn do
       end
     end
 
-    context 'when white pawn is on d3 with one diagonal open and no blocks' do
-
-    end
-
     subject(:black_pawn) { described_class.new('Black', 'Player 2') }
 
     context 'when black pawn is on d7 with no blocks' do
@@ -192,10 +188,6 @@ describe Pawn do
       it 'returns list with 3 cells' do
         expect(black_pawn.available_destinations(starting_cell, board_state).length).to eq 3
       end
-    end
-
-    context 'when black pawn is on d7 with one diagonal open and no blocks' do
-
     end
   end
 end

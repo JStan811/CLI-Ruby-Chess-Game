@@ -2,6 +2,7 @@
 
 require_relative 'game_builder'
 
+# rubocop: disable Metrics/ClassLength
 # represents an entity running the game
 class Chess
   def initialize
@@ -11,49 +12,94 @@ class Chess
 
   def play_chess
     @game.interface.display_instructions
-
     loop do
       @game.interface.display_board(@game.board)
       turn_loop(@active_player)
-      @game.interface.display_board(@game.board)
-      turn_loop(@active_player)
     end
   end
 
+  private
+
+  # rubocop: disable Metrics/MethodLength
   def turn_loop(player)
-    if @game.validator.king_in_check?(player, @game.board.cells)
-      @game.interface.player_in_check_alert(player)
-    end
-    player_action = player_action_sequence(player)
+    player_action = if @game.validator.king_in_check?(player, @game.board.cells)
+                      player_action_if_in_check(player)
+                    else
+                      player_action_sequence(player)
+                    end
     starting_cell = convert_player_action_into_starting_cell(player_action)
     ending_cell = convert_player_action_into_ending_cell(player_action)
     @game.board.update_board(starting_cell, ending_cell)
-    if @game.validator.pawn_promotion?(player.color, ending_cell)
-        desired_promotion = @game.interface.solicit_pawn_promotion_choice(player)
-        @game.board.promote_pawn(desired_promotion, ending_cell, player)
-        @game.interface.pawn_promotion_confirmation(desired_promotion)
+    promote_pawn_if_available(player, ending_cell)
+    end_game_if_checkmate(player)
+    end_game_if_stalemate(player)
+    switch_active_player
+  end
+  # rubocop: enable Metrics/MethodLength
+
+  # rubocop: disable Metrics/AbcSize
+  # rubocop: disable Metrics/MethodLength
+  def player_action_if_in_check(player)
+    @game.interface.player_in_check_alert(player)
+    player_action = ''
+    loop do
+      player_action = player_action_sequence(player)
+      starting_cell = convert_player_action_into_starting_cell(player_action)
+      ending_cell = convert_player_action_into_ending_cell(player_action)
+      starting_cell_piece = starting_cell.piece
+      ending_cell_piece = ending_cell.piece
+      @game.board.update_board(starting_cell, ending_cell)
+      if @game.validator.king_in_check?(player, @game.board.cells)
+        reset_board(starting_cell, starting_cell_piece, ending_cell, ending_cell_piece)
+        next
+      end
+      reset_board(starting_cell, starting_cell_piece, ending_cell, ending_cell_piece)
+      break
     end
-    if @game.validator.opponent_check_mate?(player, @game.board.cells)
-      @game.interface.display_board(@game.board)
-      @game.interface.checkmate_message(player)
-      exit
-    end
-    if @game.validator.opponent_stale_mate?(player, @game.board.cells)
-      @game.interface.display_board(@game.board)
-      @game.interface.stalemate_message
-      exit
-    end
-    if @game.validator.king_in_check?(player, @game.board.cells)
-      @game.board.update_board(ending_cell, starting_cell)
-      turn_loop(player)
-    end
-    if @active_player == @game.player1
-      @active_player = @game.player2
-    else
-      @active_player = @game.player1
-    end
+    player_action
+  end
+  # rubocop: enable Metrics/MethodLength
+  # rubocop: enable Metrics/AbcSize
+
+  def reset_board(starting_cell, starting_cell_piece, ending_cell, ending_cell_piece)
+    starting_cell.place_piece(starting_cell_piece)
+    ending_cell.place_piece(ending_cell_piece)
   end
 
+  def promote_pawn_if_available(player, ending_cell)
+    return unless @game.validator.pawn_promotion?(player.color, ending_cell)
+
+    desired_promotion = @game.interface.solicit_pawn_promotion_choice(player)
+    @game.board.promote_pawn(desired_promotion, ending_cell, player)
+    @game.interface.pawn_promotion_confirmation(desired_promotion)
+  end
+
+  def end_game_if_checkmate(player)
+    return unless @game.validator.opponent_check_mate?(player, @game.board.cells)
+
+    @game.interface.display_board(@game.board)
+    @game.interface.checkmate_message(player)
+    exit
+  end
+
+  def end_game_if_stalemate(player)
+    return unless @game.validator.opponent_stale_mate?(player, @game.board.cells)
+
+    @game.interface.display_board(@game.board)
+    @game.interface.stalemate_message
+    exit
+  end
+
+  def switch_active_player
+    @active_player = if @active_player == @game.player1
+                       @game.player2
+                     else
+                       @active_player = @game.player1
+                     end
+  end
+
+  # rubocop: disable Metrics/AbcSize
+  # rubocop: disable Metrics/MethodLength
   def player_action_sequence(player)
     player_action = ''
     loop do
@@ -85,8 +131,8 @@ class Chess
     end
     player_action
   end
-
-  private
+  # rubocop: enable Metrics/AbcSize
+  # rubocop: enable Metrics/MethodLength
 
   def convert_notation_to_column_index(notated_cell)
     notated_cell_as_char_array = notated_cell.split('')
@@ -117,3 +163,4 @@ class Chess
     @game.board.cells[ending_cell_row_index][ending_cell_column_index]
   end
 end
+# rubocop: enable Metrics/ClassLength

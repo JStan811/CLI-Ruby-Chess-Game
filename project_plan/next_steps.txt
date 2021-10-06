@@ -1,12 +1,5 @@
-3. at the end read through everything and refactor, then use the rubocop command line thing
-  - Refactoring
-    - chess.rb
-    - tests
-
-4. Update Readme and Replit
-
-Extras
-   - Write tests
+Areas for Improvement
+   - Write full test suite
     - Think about or look up common check and checkmate positions and create boards in those positions (or one move prior to them) to test
   - add in support for Castling, En passant
   - Decide player color randomly

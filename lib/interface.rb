@@ -89,12 +89,11 @@ class Interface
   end
 
   def own_king_in_check_alert
-    puts 'Invalid move. It puts your own King into Check.'
+    puts 'Invalid move. It puts your king into Check.'
     puts
   end
 
   def display_board(board)
-    x = "\u2654".encode('utf-8')
     board_display =
       "        ___a___ ___b___ ___c___ ___d___ ___e___ ___f___ ___g___ ___h___
        |       |       |       |       |       |       |       |       |
@@ -172,7 +171,7 @@ class Interface
     when '1' then save_game_and_continue_playing(game, database)
     when '2' then save_game_and_quit(game, database)
     when '3' then game_exit
-    when '4' then return
+    when '4' then nil
     else
       puts 'Invalid entry.'
       save_quit_menu(game, database)
