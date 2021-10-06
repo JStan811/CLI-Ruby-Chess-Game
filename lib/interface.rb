@@ -89,7 +89,7 @@ class Interface
   end
 
   def own_king_in_check_alert
-    puts 'Invalid move. It puts your own King into Check.'
+    puts 'Invalid move. It puts your king into Check.'
     puts
   end
 
