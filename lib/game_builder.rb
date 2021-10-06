@@ -52,9 +52,7 @@ class GameBuilder
   end
 
   def place_white_starting_pawns
-    for i in 0..7
-      place_piece(1, i, Pawn.new('White', player1))
-    end
+    (0..7).each { |i| place_piece(1, i, Pawn.new('White', player1)) }
   end
 
   def place_black_starting_pieces
@@ -70,8 +68,6 @@ class GameBuilder
   end
 
   def place_black_starting_pawns
-    for i in 0..7
-      place_piece(6, i, Pawn.new('Black', player2))
-    end
+    (0..7).each { |i| place_piece(6, i, Pawn.new('Black', player2)) }
   end
 end

@@ -163,3 +163,4 @@ class Chess
     @game.board.cells[ending_cell_row_index][ending_cell_column_index]
   end
 end
+# rubocop: enable Metrics/ClassLength

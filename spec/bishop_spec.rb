@@ -3,7 +3,6 @@
 require_relative '../lib/piece'
 require_relative '../lib/bishop'
 
-
 # rubocop: disable Metrics/BlockLength
 describe Bishop do
   describe '#available_destinations' do
