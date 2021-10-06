@@ -7,7 +7,7 @@ class Validator
   def valid_notation?(player_action)
     return false unless player_action.is_a? String
 
-    # my notation is '"starting cell""target cell"', eg 'e3a4'
+    # Notation is '"starting cell""target cell"', eg 'e3a4'.
     player_action.match?(/^[a-h][1-8][a-h][1-8]$/)
   end
 
@@ -113,7 +113,6 @@ class Validator
     king_cell = nil
     board_state.each do |row|
       row.each do |cell|
-        # skip cell if its empty or if your opp owns the piece in it
         next if cell.piece.nil? || cell.piece.owner != player
 
         king_cell = cell if cell.piece.instance_of?(King)
@@ -126,7 +125,6 @@ class Validator
     opponent_king_cell = nil
     board_state.each do |row|
       row.each do |cell|
-        # skip cell if its empty or if you own the piece in it
         next if cell.piece.nil? || cell.piece.owner == player
 
         opponent_king_cell = cell if cell.piece.instance_of?(King)
