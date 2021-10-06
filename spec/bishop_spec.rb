@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
+require_relative '../lib/piece'
 require_relative '../lib/bishop'
-require_relative '../lib/board'
-require_relative '../lib/cell'
+
 
 # rubocop: disable Metrics/BlockLength
 describe Bishop do
