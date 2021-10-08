@@ -1,6 +1,10 @@
+Bugs
+ - when player is in check, if they make a move that leaves them still in check, the game does not tell them
+
 Areas for Improvement
-   - Write full test suite
+  - Write full test suite
     - Think about or look up common check and checkmate positions and create boards in those positions (or one move prior to them) to test
+  - Make Readme informative and pretty
   - add in support for Castling, En passant
   - Decide player color randomly
   - Add new game? feature when game ends
