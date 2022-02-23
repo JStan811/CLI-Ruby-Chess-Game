@@ -32,6 +32,7 @@ Instructions
 Design Specs
 ------------
 
+<<<<<<< HEAD
 - This program is writtenly completely from scratch using vanilla Ruby
 - Object organization uses object oriented classical inheritance  (eg the Knight class inherits from Piece) with every object coming from a hand-rolled class
 - Modules are also used to share code (eg the LineMovement module is used be the Queen, Knight, and Rook classes)
