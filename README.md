@@ -1,25 +1,15 @@
-# chess
+# CLI Ruby Chess Game
 
-Command line Chess game for [The Odin Project](https://www.theodinproject.com/paths/full-stack-ruby-on-rails/courses/ruby-programming/lessons/ruby-final-project).
-
-Run on [Repl.it](https://replit.com/@JakeStandley/chess?v=1).
-
-$project
 ========
 
-$project will solve your problem of where to start with documentation,
-by providing a basic explanation of how to do it easily.
+Hi! This is a Command line chess program written in Ruby. 
 
-Look how easy it is to use:
-
-    import project
-    # Get your stuff done
-    project.do_stuff()
+Run on [Repl.it](https://replit.com/@JakeStandley/chess?v=1) (But run a faster and more stable version by cloning the repo.)
 
 Features
 --------
 
-- Be awesome
+- Complete Chess game with support for 
 - Make things faster
 
 Installation
@@ -29,19 +19,17 @@ Install $project by running:
 
     install project
 
-Contribute
-----------
+Project Requirements
+2-Player Game with Legal Moves: I wanted to create a similar UI as chess.com to visually display the opponent's previous piece, the active piece, and the legal moves/captures. Therefore, I needed to divide each turn into two different parts.
 
-- Issue Tracker: github.com/$project/$project/issues
-- Source Code: github.com/$project/$project
+Save and Load Games: Players can save (or quit) a game at the beginning of every turn. Before a game starts, players have the choice to play a new game or load a saved game.
 
-Support
+Tests: I wrote unit tests for incoming command methods, incoming query methods, and outgoing command methods. Most of the time, I wrote tests and the method in tandem. Occasionally, I used TDD when I wanted the test to guide the results. For example, I used TDD as I developed the methods that determined each piece's moves and captures.
+
+Simple Computer Player (Optional): Since the white player always goes first and has a slightly higher advantage, I decided to have the computer player always be black to keep the game set-up simple. The computer player selects a piece with legal moves and/or captures.
+
+Support/Feedback
 -------
 
-If you are having issues, please let us know.
-We have a mailing list located at: project@google-groups.com
-
-License
--------
-
-The project is licensed under the BSD license.
+If you are having issues or have any feedback, please let me know.
+I can be reached at jake-standley@outlook.com
