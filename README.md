@@ -1,7 +1,5 @@
 # CLI Ruby Chess Game
 
-========
-
 Hi! This is a Command line chess program written in Ruby. 
 
 Run on [Repl.it](https://replit.com/@JakeStandley/chess?v=1) (But run a faster and more stable version by cloning the repo.)
