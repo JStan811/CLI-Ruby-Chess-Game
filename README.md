@@ -14,9 +14,9 @@ How to play
 ------------
 
 Prerequisites
-- ruby
+- ruby ([how to install](https://www.ruby-lang.org/en/documentation/installation/))
 
-You can run on [Repl.it](https://replit.com/@JakeStandley/chess?v=1) but to use a faster and more stable version:
+You can run online on [Repl.it](https://replit.com/@JakeStandley/chess?v=1) but to use a faster and more stable version:
 
 1. clone this repo ([instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository))
 3. navigate to your new local repo
@@ -32,7 +32,6 @@ Instructions
 Design Specs
 ------------
 
-<<<<<<< HEAD
 - This program is writtenly completely from scratch using vanilla Ruby
 - Object organization uses object oriented classical inheritance  (eg the Knight class inherits from Piece) with every object coming from a hand-rolled class
 - Modules are also used to share code (eg the LineMovement module is used be the Queen, Knight, and Rook classes)
